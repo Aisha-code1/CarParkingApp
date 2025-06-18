@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".ManageSlotActivity">
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_managesolot"
+        android:id="@+id/rv_manageslot"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

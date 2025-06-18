@@ -24,7 +24,7 @@
         android:id="@+id/et_Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
+        android:hint="Name"
         android:background="@drawable/edittext_background"
         android:padding="12dp"
         android:textColor="@color/black"
@@ -34,8 +34,9 @@
         android:id="@+id/et_Price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Price"
+        android:hint="Price"
         android:textColor="@color/black"
+        android:inputType="number"
         android:background="@drawable/edittext_background"
         android:padding="12dp"
         android:layout_marginBottom="24dp" />
@@ -44,23 +45,23 @@
         android:id="@+id/et_city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="City"
+        android:hint="City"
         android:textColor="@color/black"
         android:background="@drawable/edittext_background"
         android:padding="12dp"
         android:layout_marginBottom="24dp" />
     <EditText
-        android:id="@+id/et_contact"
+        android:id="@+id/et_timing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Contact No"
+        android:hint="Timing"
         android:textColor="@color/black"
         android:background="@drawable/edittext_background"
         android:padding="12dp"
         android:layout_marginBottom="24dp" />
 
     <Button
-        android:id="@+id/btnSave"
+        android:id="@+id/btn_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Save"
