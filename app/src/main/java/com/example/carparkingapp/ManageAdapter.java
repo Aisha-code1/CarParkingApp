@@ -18,8 +18,8 @@ import java.util.List;
 public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
    List<Manage> manageList;
     Context context;
-    public ManageAdapter(List<Manage> categoryList, Context context) {
-        this.manageList = categoryList;
+    public ManageAdapter(List<Manage> manageList, Context context) {
+        this.manageList = manageList;
         this.context = context;
     }
 
@@ -34,11 +34,11 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ManageViewHolder holder, int position) {
-        Manage category = manageList.get(position);
-        holder.tvName.setText(category.name);
-        holder.tvPrice.setText(category.price);
-        holder.tvCity.setText(category.city);
-        holder.tvTiming.setText(category.timing);
+        Manage manage = manageList.get(position);
+        holder.tvName.setText(manage.name);
+        holder.tvPrice.setText(manage.price+"");
+        holder.tvCity.setText(manage.city);
+        holder.tvTiming.setText(manage.timing);
         holder.ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,10 +50,10 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        Toast.makeText(context, "You clicked Yes", Toast.LENGTH_SHORT).show();
-                        FirebaseDatabase.getInstance().getReference("Categories")
-                                .child(category.id)
+                        FirebaseDatabase.getInstance().getReference("Manage")
+                                .child(manage.id)
                                 .removeValue();
-                        manageList.remove(category);
+                        manageList.remove(manage);
                         notifyDataSetChanged();
                     }
                 });

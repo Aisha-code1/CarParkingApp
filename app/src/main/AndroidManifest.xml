@@ -17,7 +17,7 @@
             android:name=".ManageSlotActivity"
             android:exported="false" />
         <activity
-            android:name=".AdminDashboardActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".AddActivity"
@@ -38,7 +38,7 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".AdminDashboardActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
