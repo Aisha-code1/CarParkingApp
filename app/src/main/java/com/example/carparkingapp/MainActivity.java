@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         new Handler().postDelayed(() -> {
-            Intent intent  = new Intent(MainActivity.this, RegisterActivity.class);
+            Intent intent  = new Intent(MainActivity.this, LoginandRegisterActivity.class);
             startActivity(intent);
             finish();
 
