@@ -19,6 +19,9 @@
         android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_marginBottom="24dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 
     <EditText
         android:id="@+id/et_Name"
@@ -29,7 +32,9 @@
         android:padding="12dp"
         android:textColor="@color/black"
         android:layout_marginBottom="16dp" />
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/et_Price"
         android:layout_width="match_parent"
@@ -41,7 +46,9 @@
         android:background="@drawable/edittext_background"
         android:padding="12dp"
         android:layout_marginBottom="24dp" />
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/et_city"
         android:layout_width="match_parent"
@@ -51,6 +58,9 @@
         android:background="@drawable/edittext_background"
         android:padding="12dp"
         android:layout_marginBottom="24dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/et_timing"
         android:layout_width="match_parent"
