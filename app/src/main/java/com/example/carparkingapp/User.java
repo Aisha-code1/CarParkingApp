@@ -2,7 +2,7 @@ package com.example.carparkingapp;
 
 public class User {
     public String name;
-    public String email;
+    public String email, role;
     public User() {}
 
     public User(String name, String email) {
