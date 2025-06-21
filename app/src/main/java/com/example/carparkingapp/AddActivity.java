@@ -4,14 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AddActivity extends AppCompatActivity {
@@ -20,11 +16,13 @@ public class AddActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         setContentView(R.layout.activity_add);
         EditText etName = findViewById(R.id.et_Name);
         EditText etPrice = findViewById(R.id.et_Price);
         EditText etCity = findViewById(R.id.et_city);
         EditText etTiming = findViewById(R.id.et_timing);
+
         Button save = findViewById(R.id.btn_save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +42,8 @@ public class AddActivity extends AppCompatActivity {
 //                        .child(FirebaseAuth.getInstance().getUid())
                         .push()
                         .setValue(manage);
+                Toast.makeText(AddActivity.this, "Added successfully", Toast.LENGTH_SHORT).show();
+                finish();
             }
 
 

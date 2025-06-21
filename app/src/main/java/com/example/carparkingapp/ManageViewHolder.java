@@ -18,5 +18,6 @@ public class ManageViewHolder extends RecyclerView.ViewHolder {
         tvPrice = dataitem.findViewById(R.id.tv_price);
         tvCity = dataitem.findViewById(R.id.tv_city);
         tvTiming = dataitem.findViewById(R.id.tv_timing);
+        ivDelete = dataitem.findViewById(R.id.iv_delete);
     }
 }
