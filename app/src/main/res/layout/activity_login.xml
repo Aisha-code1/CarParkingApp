@@ -47,7 +47,7 @@
                 android:textColor="@color/black"
                 android:padding="8dp"
                 android:layout_marginTop="15dp"
-                android:inputType="textPassword"
+
                 android:drawableStart="@drawable/baseline_email_24"
                 android:drawablePadding="15dp"
 
