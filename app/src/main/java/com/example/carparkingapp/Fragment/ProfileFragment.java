@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
@@ -16,11 +17,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.carparkingapp.LoginActivity;
+import com.example.carparkingapp.Manage;
 import com.example.carparkingapp.R;
+import com.example.carparkingapp.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class ProfileFragment extends Fragment {
@@ -31,10 +39,9 @@ public class ProfileFragment extends Fragment {
     Button btnSave;
     private static final int REQUEST_IMAGE_PICK = 101;
     Uri imageUri;
-    FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-    String loggedInName = currentUser.getDisplayName();
-    String loggedInEmail = currentUser.getEmail();
-
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String email = user.getEmail();
+    String uid = user.getUid();
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -73,46 +80,44 @@ public class ProfileFragment extends Fragment {
         edtName = view.findViewById(R.id.edt_name);
         edtEmail = view.findViewById(R.id.edt_email);
         btnSave = view.findViewById(R.id.btn_save);
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser != null) {
-            String loggedInName = currentUser.getDisplayName();
-            String loggedInEmail = currentUser.getEmail();
 
-            
-            tvEmail.setText(loggedInEmail != null ? loggedInEmail : "No Email");
+        FirebaseDatabase.getInstance()
+                .getReference("Users")
+                .child(FirebaseAuth.getInstance().getUid())
+//                .child(uid)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String name = snapshot.child("name").getValue(String.class);
+                        String email = snapshot.child("email").getValue(String.class);
+                        tvName.setText(name);
+                        tvEmail.setText(email);
+                        edtName.setText(name);
+                        }
 
-            edtName.setText(loggedInName);
-            edtEmail.setText(loggedInEmail);
-        }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getContext(), "Error loading profile", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
         imgEditIcon.setOnClickListener(v -> {
             imgEditIcon.setVisibility(View.GONE);
             imgCameraIcon.setVisibility(View.VISIBLE);
             edtName.setVisibility(View.VISIBLE);
-            edtEmail.setVisibility(View.VISIBLE);
             btnSave.setVisibility(View.VISIBLE);
-
             tvName.setVisibility(View.GONE);
             tvEmail.setVisibility(View.GONE);
-
-
-
-
         });
         btnSave.setOnClickListener(v -> {
-
             edtName.setVisibility(View.GONE);
-            edtEmail.setVisibility(View.GONE);
+
             btnSave.setVisibility(View.GONE);
             imgCameraIcon.setVisibility(View.GONE);
             imgEditIcon.setVisibility(View.VISIBLE);
-
             tvName.setVisibility(View.VISIBLE);
             tvEmail.setVisibility(View.VISIBLE);
-        });
-        imgCameraIcon.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK,
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
         });
 
         Button logout = view.findViewById(R.id.btn_logout);
