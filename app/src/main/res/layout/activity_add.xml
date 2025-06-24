@@ -27,7 +27,7 @@
         android:id="@+id/et_Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name"
+        android:hint="Mall Name"
         android:background="@drawable/edittext_background"
         android:padding="12dp"
         android:textColor="@color/black"
