@@ -111,13 +111,31 @@ public class ProfileFragment extends Fragment {
             tvEmail.setVisibility(View.GONE);
         });
         btnSave.setOnClickListener(v -> {
-            edtName.setVisibility(View.GONE);
+            String updatedName = edtName.getText().toString().trim();
 
-            btnSave.setVisibility(View.GONE);
-            imgCameraIcon.setVisibility(View.GONE);
-            imgEditIcon.setVisibility(View.VISIBLE);
-            tvName.setVisibility(View.VISIBLE);
-            tvEmail.setVisibility(View.VISIBLE);
+            if (updatedName.isEmpty()) {
+                edtName.setError("Name cannot be empty");
+                return;
+            }
+
+            FirebaseDatabase.getInstance()
+                    .getReference("Users")
+//                    .child(FirebaseAuth.getInstance().getUid());
+                      .child("name").setValue(updatedName)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(getContext(), "Name updated successfully", Toast.LENGTH_SHORT).show();
+                        tvName.setText(updatedName);
+                        edtName.setVisibility(View.GONE);
+
+                        btnSave.setVisibility(View.GONE);
+                        imgCameraIcon.setVisibility(View.GONE);
+                        imgEditIcon.setVisibility(View.VISIBLE);
+                        tvName.setVisibility(View.VISIBLE);
+                        tvEmail.setVisibility(View.VISIBLE);
+                    })
+                       .addOnFailureListener(e -> {
+                Toast.makeText(getContext(), "Failed to update name", Toast.LENGTH_SHORT).show();
+            });
         });
 
         Button logout = view.findViewById(R.id.btn_logout);
@@ -148,3 +166,4 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 }
+
