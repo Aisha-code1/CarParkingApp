@@ -62,7 +62,7 @@ public class ProfileFragment extends Fragment {
                         if (imageUri != null) {
                             //do something with the capture image
                             imgProfile.setImageURI(imageUri);
-
+                            uploadImageToFirebase(imageUri);
                         }
                     }
                 }
@@ -74,7 +74,7 @@ public class ProfileFragment extends Fragment {
                 public void onActivityResult(Uri result) {
                     if (result != null) {
                         imgProfile.setImageURI(result);
-                        uploadImageToFirebase(result);
+                         uploadImageToFirebase(result);
                           }
                 }
             });
@@ -192,8 +192,8 @@ public class ProfileFragment extends Fragment {
         imgCameraIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                captureImage();
-                pickImage();
+                captureImage();
+            //    pickImage();
             }
 
 

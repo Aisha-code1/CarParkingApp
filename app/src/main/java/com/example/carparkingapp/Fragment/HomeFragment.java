@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.example.carparkingapp.AboutActivity;
 import com.example.carparkingapp.R;
+import com.example.carparkingapp.ViewSlot;
 
 public class HomeFragment extends Fragment {
 
@@ -48,6 +49,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), AboutActivity.class);
+                startActivity(intent);
+            }
+        });
+        ImageView list = view.findViewById(R.id.image3);
+        list.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ViewSlot.class);
                 startActivity(intent);
             }
         });

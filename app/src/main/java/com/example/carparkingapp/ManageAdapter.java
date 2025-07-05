@@ -18,9 +18,11 @@ import java.util.List;
 public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
    List<Manage> manageList;
     Context context;
+    boolean isAdmin;
     public ManageAdapter(List<Manage> manageList, Context context) {
         this.manageList = manageList;
         this.context = context;
+        this.isAdmin = isAdmin;
     }
 
 
@@ -39,6 +41,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
         holder.tvPrice.setText(manage.price+"");
         holder.tvCity.setText(manage.city);
         holder.tvTiming.setText(manage.timing);
+
         holder.ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +71,14 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
                 dialog.show();
             }
         });
-    }
+        if (isAdmin) {
+            holder.ivDelete.setVisibility(View.VISIBLE);
+            holder.ivDelete.setOnClickListener(v -> {
+            });
+        } else {
+            holder.ivDelete.setVisibility(View.GONE);
+        }
+          }
 
     @Override
     public int getItemCount() {
