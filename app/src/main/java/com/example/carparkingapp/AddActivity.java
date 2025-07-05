@@ -18,44 +18,74 @@ public class AddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EditText etTiming = findViewById(R.id.et_timing);
-        etTiming.setOnClickListener(v->{
-            final Calendar calendar = Calendar.getInstance();
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int mintue = calendar.get(Calendar.MINUTE);
-            TimePickerDialog timePickerDialog = new TimePickerDialog(AddActivity.this,(view,hourofday,mintue1)->{
-                String selectedTime = String.format("%02d:%02d", hourofday, mintue1);
-                etTiming.setText(selectedTime);
-            },
-              hour,
-              mintue,
-              false
-            );
-            timePickerDialog.show();
-
-        });
-
         setContentView(R.layout.activity_add);
         EditText etName = findViewById(R.id.et_Name);
         EditText etPrice = findViewById(R.id.et_Price);
         EditText etCity = findViewById(R.id.et_city);
+        EditText etTiming = findViewById(R.id.et_timing);
         Button save = findViewById(R.id.btn_save);
+        etTiming.setOnClickListener(v -> {
+            Calendar calendar = Calendar.getInstance();
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+
+            TimePickerDialog timePickerDialog = new TimePickerDialog(
+                    AddActivity.this,
+                    (view, hourOfDay, minute1) -> {
+                        String formattedTime = String.format("%02d:%02d", hourOfDay, minute1);
+                        etTiming.setText(formattedTime);
+                    },
+                    hour, minute, true
+            );
+            timePickerDialog.show();
+        });
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String name = etName.getText().toString();
-                String price = etPrice.getText().toString();
-                String city = etCity.getText().toString();
-                String timing = etTiming.getText().toString();
+                String name = etName.getText().toString().trim();
+                String priceStr = etPrice.getText().toString().trim();
+                String city = etCity.getText().toString().trim();
+                String timing = etTiming.getText().toString().trim();
+                if (name.isEmpty()) {
+                    etName.setError("Enter mall name");
+                    etName.requestFocus();
+                    return;
+                }
+                if (priceStr.isEmpty()) {
+                    etPrice.setError("Enter price");
+                    etPrice.requestFocus();
+                    return;
+                }
+                if (city.isEmpty()) {
+                    etCity.setError("Enter city");
+                    etCity.requestFocus();
+                    return;
+                }
+                if (timing.isEmpty()) {
+                    etTiming.setError("Select timing");
+                    etTiming.requestFocus();
+                    return;
+                }
+
+                int price;
+                try {
+                    price = Integer.parseInt(priceStr);
+                }
+                catch (NumberFormatException e) {
+                    etPrice.setError("Enter valid number");
+                    etPrice.requestFocus();
+                    return;
+                }
+
                 Manage manage = new Manage();
                 manage.name = name;
                 manage.city = city;
                 manage.timing = timing;
-               manage.price = Integer.parseInt(price);
-                //save data
+                manage.price = price;
+
                 FirebaseDatabase.getInstance()
                         .getReference("Manage")
-//                        .child(FirebaseAuth.getInstance().getUid())
                         .push()
                         .setValue(manage);
                 Toast.makeText(AddActivity.this, "Added successfully", Toast.LENGTH_SHORT).show();

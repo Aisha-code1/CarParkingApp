@@ -65,13 +65,14 @@
         android:id="@+id/et_timing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Timing"
+        android:hint=" Select Timing"
+        android:focusable="false"
+        android:clickable="true"
         android:textColor="@color/black"
         android:background="@drawable/edittext_background"
         android:padding="12dp"
         android:layout_marginBottom="24dp"
-        android:focusable="false"
-        android:clickable="true"/>
+     />
 
     <Button
         android:id="@+id/btn_save"

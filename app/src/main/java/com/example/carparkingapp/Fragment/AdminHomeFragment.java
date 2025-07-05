@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.carparkingapp.AddActivity;
 import com.example.carparkingapp.ManageSlotActivity;
 import com.example.carparkingapp.R;
 
