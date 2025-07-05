@@ -35,13 +35,10 @@ public class AddActivity extends AppCompatActivity {
 
         });
 
-
         setContentView(R.layout.activity_add);
         EditText etName = findViewById(R.id.et_Name);
         EditText etPrice = findViewById(R.id.et_Price);
         EditText etCity = findViewById(R.id.et_city);
-
-
         Button save = findViewById(R.id.btn_save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -19,7 +19,6 @@
                    android:id="@+id/iv_profile"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
-                   android:src="@drawable/profile"
                    android:background="@drawable/profile_bg"/>
                <ImageView
                    android:id="@+id/iv_edit"
