@@ -23,22 +23,38 @@ public class AddActivity extends AppCompatActivity {
         EditText etPrice = findViewById(R.id.et_Price);
         EditText etCity = findViewById(R.id.et_city);
         EditText etTiming = findViewById(R.id.et_timing);
+        EditText etAddress = findViewById(R.id.et_address);
         Button save = findViewById(R.id.btn_save);
+
+
         etTiming.setOnClickListener(v -> {
-            Calendar calendar = Calendar.getInstance();
+            final Calendar calendar = Calendar.getInstance();
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int minute = calendar.get(Calendar.MINUTE);
 
-            TimePickerDialog timePickerDialog = new TimePickerDialog(
-                    AddActivity.this,
-                    (view, hourOfDay, minute1) -> {
-                        String formattedTime = String.format("%02d:%02d", hourOfDay, minute1);
-                        etTiming.setText(formattedTime);
+            TimePickerDialog openingDialog = new TimePickerDialog(AddActivity.this,
+                    (view, openingHour, openingMinute) -> {
+
+                        String openingTime = String.format("%02d:%02d", openingHour, openingMinute);
+
+                        TimePickerDialog closingDialog = new TimePickerDialog(AddActivity.this,
+                                (view2, closingHour, closingMinute) -> {
+                                    String closingTime = String.format("%02d:%02d", closingHour, closingMinute);
+                                    String finalTiming = "Timing: " + openingTime + " - " + closingTime;
+                                    etTiming.setText(finalTiming);
+                                },
+                                hour, minute, true);
+
+                        closingDialog.setTitle("Select Closing Time");
+                        closingDialog.show();
+
                     },
-                    hour, minute, true
-            );
-            timePickerDialog.show();
+                    hour, minute, true);
+
+            openingDialog.setTitle("Select Opening Time");
+            openingDialog.show();
         });
+
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +62,8 @@ public class AddActivity extends AppCompatActivity {
                 String name = etName.getText().toString().trim();
                 String priceStr = etPrice.getText().toString().trim();
                 String city = etCity.getText().toString().trim();
-                String timing = etTiming.getText().toString().trim();
+                String timing= etTiming.getText().toString().trim();
+                String address = etAddress.getText().toString().trim();
                 if (name.isEmpty()) {
                     etName.setError("Enter mall name");
                     etName.requestFocus();
@@ -62,9 +79,15 @@ public class AddActivity extends AppCompatActivity {
                     etCity.requestFocus();
                     return;
                 }
+
                 if (timing.isEmpty()) {
-                    etTiming.setError("Select timing");
+                    etTiming.setError("Please select opening and closing time");
                     etTiming.requestFocus();
+                    return;
+                }
+                if (address.isEmpty()) {
+                    etAddress.setError("Enter address");
+                    etAddress.requestFocus();
                     return;
                 }
 
@@ -81,9 +104,9 @@ public class AddActivity extends AppCompatActivity {
                 Manage manage = new Manage();
                 manage.name = name;
                 manage.city = city;
-                manage.timing = timing;
                 manage.price = price;
-
+                manage.address = address;
+                manage.timing = timing;
                 FirebaseDatabase.getInstance()
                         .getReference("Manage")
                         .push()

@@ -41,6 +41,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
         holder.tvPrice.setText(manage.price+"");
         holder.tvCity.setText(manage.city);
         holder.tvTiming.setText(manage.timing);
+        holder.tvAddress.setText(manage.address);
 
         holder.ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
