@@ -38,6 +38,13 @@
         android:textSize="17sp"
         android:textStyle="bold"
         android:text="Timing"/>
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:text="Address"/>
 </LinearLayout>
     <ImageView
         android:id="@+id/iv_delete"

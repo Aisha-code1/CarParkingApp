@@ -65,7 +65,7 @@
         android:id="@+id/et_timing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint=" Select Timing"
+        android:hint=" Timing: Opening-Closing"
         android:focusable="false"
         android:clickable="true"
         android:textColor="@color/black"
@@ -73,6 +73,19 @@
         android:padding="12dp"
         android:layout_marginBottom="24dp"
      />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/et_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint=" Address"
+        android:textColor="@color/black"
+        android:background="@drawable/edittext_background"
+        android:padding="12dp"
+        android:layout_marginBottom="24dp"
+        />
 
     <Button
         android:id="@+id/btn_save"
