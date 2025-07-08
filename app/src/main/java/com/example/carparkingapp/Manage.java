@@ -18,17 +18,23 @@ public class Manage {
     }
 
     public String getName() {
+
         return name;
     }
     public int getPrice() {
+
         return price;
     }
     public String getCity() {
+
         return city;
     }
     public String getTiming() {
+
         return timing;
     }
-    public String gerAddress(){ return  address; }
+    public String getAddress(){
+        return  address;
+    }
 
 }

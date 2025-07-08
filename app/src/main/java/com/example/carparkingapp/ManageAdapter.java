@@ -3,6 +3,7 @@ package com.example.carparkingapp;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,10 +39,20 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
     public void onBindViewHolder(@NonNull ManageViewHolder holder, int position) {
         Manage manage = manageList.get(position);
         holder.tvName.setText(manage.name);
-        holder.tvPrice.setText(manage.price+"");
         holder.tvCity.setText(manage.city);
-        holder.tvTiming.setText(manage.timing);
-        holder.tvAddress.setText(manage.address);
+        if (isAdmin) {
+            holder.tvPrice.setVisibility(View.VISIBLE);
+            holder.tvTiming.setVisibility(View.VISIBLE);
+            holder.tvAddress.setVisibility(View.VISIBLE);
+
+            holder.tvPrice.setText("Price: Rs " + manage.price);
+            holder.tvTiming.setText("Timing: " + manage.timing);
+            holder.tvAddress.setText("Address: " + manage.address);
+        } else {
+            holder.tvPrice.setVisibility(View.GONE);
+            holder.tvTiming.setVisibility(View.GONE);
+            holder.tvAddress.setVisibility(View.GONE);
+        }
 
         holder.ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,8 +90,18 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
         } else {
             holder.ivDelete.setVisibility(View.GONE);
         }
+        if (!isAdmin) {
+            holder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("name", manage.getName());
+                intent.putExtra("price", manage.getPrice());
+                intent.putExtra("city", manage.getCity());
+                intent.putExtra("timing", manage.getTiming());
+                intent.putExtra("address", manage.getAddress());
+                context.startActivity(intent);
+            });
+        }
           }
-
     @Override
     public int getItemCount() {
         return this.manageList.size();

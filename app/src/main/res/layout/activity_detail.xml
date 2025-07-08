@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Detail"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            android:padding="10dp"/>
+    <TextView
+        android:padding="10dp"
+        android:id="@+id/tv_detail_name"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Mall name"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        />
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/tv_detail_price"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Price"
+            android:textSize="22sp"
+            android:layout_marginBottom="10dp"
+            />
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/tv_detail_city"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="City"
+            android:textSize="22sp"
+            android:layout_marginBottom="10dp"
+            />
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/tv_detail_timing"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Timing"
+            android:textSize="22sp"
+            android:layout_marginBottom="10dp"
+            />
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/tv_detail_address"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Address"
+            android:textSize="22sp"
+            android:layout_marginBottom="10dp"
+            />
+
+    </LinearLayout>
+
+</ScrollView>
