@@ -2,6 +2,8 @@ package com.example.carparkingapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -21,6 +23,15 @@ public class DetailActivity extends AppCompatActivity {
         tvCity = findViewById(R.id.tv_detail_city);
         tvTiming = findViewById(R.id.tv_detail_timing);
         tvAddress = findViewById(R.id.tv_detail_address);
+
+        Button book = findViewById(R.id.btn_book);
+        book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailActivity.this, BookingActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Intent intent = getIntent();
         tvName.setText(intent.getStringExtra("name"));

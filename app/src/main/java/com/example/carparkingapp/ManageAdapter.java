@@ -20,7 +20,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
    List<Manage> manageList;
     Context context;
     boolean isAdmin;
-    public ManageAdapter(List<Manage> manageList, Context context) {
+    public ManageAdapter(List<Manage> manageList, Context context, boolean isAdmin) {
         this.manageList = manageList;
         this.context = context;
         this.isAdmin = isAdmin;

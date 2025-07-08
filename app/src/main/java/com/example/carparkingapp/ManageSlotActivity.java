@@ -27,6 +27,7 @@ RecyclerView rvManage;
         setContentView(R.layout.activity_manage_slot);
         Button add = findViewById(R.id.btn_add);
         rvManage = findViewById(R.id.rv_manageslot);
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,7 +52,8 @@ RecyclerView rvManage;
                                 manageList.add(manage);
                             }
                         }
-                      ManageAdapter adapter = new ManageAdapter(manageList, ManageSlotActivity.this);
+                        ManageAdapter adapter = new ManageAdapter(manageList, ManageSlotActivity.this, true); // ✅ true = admin
+
                         rvManage.setAdapter(adapter);
                     }
 
