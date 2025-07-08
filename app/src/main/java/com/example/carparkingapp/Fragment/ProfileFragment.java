@@ -15,7 +15,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,20 +25,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.carparkingapp.LoginActivity;
-import com.example.carparkingapp.Manage;
 import com.example.carparkingapp.MyUtil;
 import com.example.carparkingapp.R;
-import com.example.carparkingapp.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.UUID;
 
 
 public class ProfileFragment extends Fragment {
