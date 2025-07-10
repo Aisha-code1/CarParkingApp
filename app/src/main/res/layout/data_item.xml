@@ -68,5 +68,11 @@
             android:layout_height="wrap_content"
             android:src="@drawable/outline_delete_24"
             android:padding="10dp"/>
+            <ImageView
+                android:id="@+id/iv_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/outline_edit_24"
+                android:padding="10dp"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

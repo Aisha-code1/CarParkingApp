@@ -3,14 +3,14 @@ package com.example.carparkingapp.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import com.example.carparkingapp.AddActivity;
+import com.example.carparkingapp.BookingActivity;
 import com.example.carparkingapp.ManageSlotActivity;
 import com.example.carparkingapp.R;
 
@@ -45,14 +45,11 @@ public class AdminHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_adminhome, container, false);
-        Button manage = view.findViewById(R.id.manage_slot_button);
-        manage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ManageSlotActivity.class);
-                startActivity(intent);
-            }
+        CardView manageSlot = view.findViewById(R.id.manageSlot);
+        manageSlot.setOnClickListener(v -> {
+            startActivity(new Intent(getContext(),ManageSlotActivity.class));
         });
+
         return view;
     }
 }

@@ -1,8 +1,6 @@
 package com.example.carparkingapp;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,57 +38,53 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
         Manage manage = manageList.get(position);
         holder.tvName.setText(manage.name);
         holder.tvCity.setText(manage.city);
+
         if (isAdmin) {
             holder.tvPrice.setVisibility(View.VISIBLE);
             holder.tvTiming.setVisibility(View.VISIBLE);
             holder.tvAddress.setVisibility(View.VISIBLE);
+            holder.ivDelete.setVisibility(View.VISIBLE);
+            holder.ivEdit.setVisibility(View.VISIBLE);
 
             holder.tvPrice.setText("Price: Rs " + manage.price);
             holder.tvTiming.setText("Timing: " + manage.timing);
             holder.tvAddress.setText("Address: " + manage.address);
+
+            holder.ivDelete.setOnClickListener(v -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Confirmation");
+                builder.setMessage("Are you sure you want to delete?");
+                builder.setPositiveButton("Yes", (dialog, which) -> {
+                    FirebaseDatabase.getInstance().getReference("Manage")
+                            .child(manage.id)
+                            .removeValue();
+                    manageList.remove(manage);
+                    notifyDataSetChanged();
+                });
+                builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+                builder.setCancelable(false);
+                builder.show();
+            });
+
+            holder.ivEdit.setOnClickListener(v -> {
+                Intent intent = new Intent(context, AddActivity.class);
+                intent.putExtra("edit_mode", true);
+                intent.putExtra("id", manage.id);
+                intent.putExtra("name", manage.name);
+                intent.putExtra("price", manage.price);
+                intent.putExtra("city", manage.city);
+                intent.putExtra("timing", manage.timing);
+                intent.putExtra("address", manage.address);
+                context.startActivity(intent);
+            });
+
         } else {
             holder.tvPrice.setVisibility(View.GONE);
             holder.tvTiming.setVisibility(View.GONE);
             holder.tvAddress.setVisibility(View.GONE);
-        }
-
-        holder.ivDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Confirmation");
-                builder.setMessage("Are you sure you want to delete?");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @SuppressLint("NotifyDataSetChanged")
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-//                        Toast.makeText(context, "You clicked Yes", Toast.LENGTH_SHORT).show();
-                        FirebaseDatabase.getInstance().getReference("Manage")
-                                .child(manage.id)
-                                .removeValue();
-                        manageList.remove(manage);
-                        notifyDataSetChanged();
-                    }
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.setCancelable(false);
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
-        if (isAdmin) {
-            holder.ivDelete.setVisibility(View.VISIBLE);
-            holder.ivDelete.setOnClickListener(v -> {
-            });
-        } else {
             holder.ivDelete.setVisibility(View.GONE);
-        }
-        if (!isAdmin) {
+            holder.ivEdit.setVisibility(View.GONE);
+
             holder.itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("name", manage.getName());
@@ -101,7 +95,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
                 context.startActivity(intent);
             });
         }
-          }
+    }
     @Override
     public int getItemCount() {
         return this.manageList.size();

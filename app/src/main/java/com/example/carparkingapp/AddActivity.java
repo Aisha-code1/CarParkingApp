@@ -15,17 +15,22 @@ import java.util.Calendar;
 
 public class AddActivity extends AppCompatActivity {
 
+    EditText etName, etPrice, etCity, etTiming, etAddress;
+    Button save;
+    boolean isEdit = false;
+    String editId = null;
+
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
-        EditText etName = findViewById(R.id.et_Name);
-        EditText etPrice = findViewById(R.id.et_Price);
-        EditText etCity = findViewById(R.id.et_city);
-        EditText etTiming = findViewById(R.id.et_timing);
-        EditText etAddress = findViewById(R.id.et_address);
-        Button save = findViewById(R.id.btn_save);
-
+        etName = findViewById(R.id.et_Name);
+        etPrice = findViewById(R.id.et_Price);
+        etCity = findViewById(R.id.et_city);
+        etTiming = findViewById(R.id.et_timing);
+        etAddress = findViewById(R.id.et_address);
+        save = findViewById(R.id.btn_save);
 
         etTiming.setOnClickListener(v -> {
             final Calendar calendar = Calendar.getInstance();
@@ -35,26 +40,35 @@ public class AddActivity extends AppCompatActivity {
             TimePickerDialog openingDialog = new TimePickerDialog(AddActivity.this,
                     (view, openingHour, openingMinute) -> {
 
-                        String openingTime = String.format("%02d:%02d", openingHour, openingMinute);
+                        String openingTime = formatTime12Hour(openingHour, openingMinute);
 
                         TimePickerDialog closingDialog = new TimePickerDialog(AddActivity.this,
                                 (view2, closingHour, closingMinute) -> {
-                                    String closingTime = String.format("%02d:%02d", closingHour, closingMinute);
-                                    String finalTiming = "Timing: " + openingTime + " - " + closingTime;
+                                    String closingTime = formatTime12Hour(closingHour, closingMinute);
+                                    String finalTiming =  ( openingTime + " - " + closingTime);
                                     etTiming.setText(finalTiming);
                                 },
-                                hour, minute, true);
+                                hour, minute, false);
 
                         closingDialog.setTitle("Select Closing Time");
                         closingDialog.show();
 
                     },
-                    hour, minute, true);
+                    hour, minute, false);
 
             openingDialog.setTitle("Select Opening Time");
             openingDialog.show();
         });
-
+        if (getIntent().getBooleanExtra("edit_mode", false)) {
+            isEdit = true;
+            editId = getIntent().getStringExtra("id");
+            etName.setText(getIntent().getStringExtra("name"));
+            etPrice.setText(String.valueOf(getIntent().getStringExtra("price")));
+            etCity.setText(getIntent().getStringExtra("city"));
+            etTiming.setText(getIntent().getStringExtra("timing"));
+            etAddress.setText(getIntent().getStringExtra("address"));
+            save.setText("Update");
+        }
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +76,7 @@ public class AddActivity extends AppCompatActivity {
                 String name = etName.getText().toString().trim();
                 String priceStr = etPrice.getText().toString().trim();
                 String city = etCity.getText().toString().trim();
-                String timing= etTiming.getText().toString().trim();
+                String timing = etTiming.getText().toString().trim();
                 String address = etAddress.getText().toString().trim();
                 if (name.isEmpty()) {
                     etName.setError("Enter mall name");
@@ -91,31 +105,37 @@ public class AddActivity extends AppCompatActivity {
                     return;
                 }
 
+
                 int price;
                 try {
                     price = Integer.parseInt(priceStr);
-                }
-                catch (NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     etPrice.setError("Enter valid number");
                     etPrice.requestFocus();
                     return;
                 }
+                Manage manage = new Manage(name, price, city, timing, address);
 
-                Manage manage = new Manage();
-                manage.name = name;
-                manage.city = city;
-                manage.price = price;
-                manage.address = address;
-                manage.timing = timing;
-                FirebaseDatabase.getInstance()
-                        .getReference("Manage")
-                        .push()
-                        .setValue(manage);
-                Toast.makeText(AddActivity.this, "Added successfully", Toast.LENGTH_SHORT).show();
+                if (isEdit) {
+                    FirebaseDatabase.getInstance().getReference("Manage")
+                            .child(editId)
+                            .setValue(manage);
+                    Toast.makeText(AddActivity.this, "Updated successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    FirebaseDatabase.getInstance().getReference("Manage")
+                            .push()
+                            .setValue(manage);
+                    Toast.makeText(AddActivity.this, "Added successfully", Toast.LENGTH_SHORT).show();
+                }
                 finish();
             }
-
-
         });
+    }
+
+    private String formatTime12Hour(int hourOfDay, int minute) {
+        String amPm = (hourOfDay >= 12) ? "PM" : "AM";
+        int hour = hourOfDay % 12;
+        if (hour == 0) hour = 12;
+        return String.format("%02d:%02d %s", hour, minute, amPm);
     }
 }
