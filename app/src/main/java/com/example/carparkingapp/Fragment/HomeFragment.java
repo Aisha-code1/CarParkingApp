@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        ImageView list = view.findViewById(R.id.image3);
+        ImageView list = view.findViewById(R.id.image2);
         list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
