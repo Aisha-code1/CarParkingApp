@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -9,57 +9,58 @@
     android:padding="24dp"
     tools:context=".BookingActivity">
 
-    <TextView
-        android:layout_margin="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Booking"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-   <EditText
-       android:id="@+id/vehicle_no"
+   <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:hint="Vehicle Type"
-       android:background="@drawable/custom_edittext"
-       android:layout_marginBottom="10dp"
-       android:padding="10dp"
-       />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/vehicle_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Vehicle No."
-        android:background="@drawable/custom_edittext"
-        android:layout_marginBottom="10dp"
-        android:padding="10dp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <EditText
-        android:id="@+id/days"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="No. of Days"
-        android:background="@drawable/custom_edittext"
-        android:layout_marginBottom="10dp"
-        android:padding="10dp"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Book Now"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        />
+       android:orientation="vertical">
+       <TextView
+           android:layout_margin="10dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Booking"
+           android:textSize="40sp"
+           android:textStyle="bold"
+           android:layout_gravity="center"
+           />
 
-</LinearLayout>
+       <EditText
+           android:id="@+id/vehicle_type"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="Vehicle Type"
+           android:background="@drawable/custom_edittext"
+           android:layout_marginBottom="16dp"
+           android:padding="10dp"
+           />
+
+       <EditText
+           android:id="@+id/vehicle_no"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="Vehicle No."
+           android:background="@drawable/custom_edittext"
+           android:layout_marginBottom="16dp"
+           android:padding="10dp"
+           />
+
+       <EditText
+           android:id="@+id/days"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:hint="No. of Days"
+           android:background="@drawable/custom_edittext"
+           android:layout_marginBottom="10dp"
+           android:padding="10dp"
+           android:inputType="number"
+           />
+       <Button
+           android:id="@+id/book"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Book Now"
+           android:layout_gravity="center"
+           android:layout_marginTop="10dp"
+           />
+   </LinearLayout>
+
+</ScrollView>

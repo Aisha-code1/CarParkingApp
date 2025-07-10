@@ -93,6 +93,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
         if (!isAdmin) {
             holder.itemView.setOnClickListener(v -> {
                 Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("uuid", manage.id);
                 intent.putExtra("name", manage.getName());
                 intent.putExtra("price", manage.getPrice());
                 intent.putExtra("city", manage.getCity());
