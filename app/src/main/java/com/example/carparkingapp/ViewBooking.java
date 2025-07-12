@@ -17,22 +17,28 @@ public class ViewBooking {
         this.days = days;
     }
     public String getId() {
+
         return id;
     }
 
-    public String getUserId() {
+    public String getuserId() {
+
         return userId;
     }
 
     public String getVehicleType() {
+
         return vehicleType;
     }
 
     public String getVehicleNumber() {
+
         return vehicleNumber;
     }
 
     public String getDays() {
+
         return days;
     }
-}
+
+ }

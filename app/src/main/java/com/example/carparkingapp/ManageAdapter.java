@@ -99,6 +99,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
     }
     @Override
     public int getItemCount() {
+
         return this.manageList.size();
     }
 }

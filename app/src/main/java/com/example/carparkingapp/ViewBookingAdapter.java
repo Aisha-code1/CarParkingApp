@@ -29,16 +29,17 @@ public class ViewBookingAdapter extends RecyclerView.Adapter<ViewBookingHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewBookingHolder holder, int position) {
-        ViewBooking booking = bookingList.get(position);
+        ViewBooking viewbooking = bookingList.get(position);
 
-        holder.tvUserId.setText("User ID: " + booking.getUserId());
-        holder.tvVehicleType.setText("Vehicle Type: " + booking.getVehicleType());
-        holder.tvVehicleNo.setText("Vehicle No: " + booking.getVehicleNumber());
-        holder.tvDays.setText("Days: " + booking.getDays());
+        holder.userId.setText("User ID: " + viewbooking.getuserId());
+        holder.tvVehicleType.setText("Vehicle Type: " + viewbooking.getVehicleType());
+        holder.tvVehicleNo.setText("Vehicle No: " + viewbooking.getVehicleNumber());
+        holder.tvDays.setText("Days: " + viewbooking.getDays());
     }
 
     @Override
     public int getItemCount() {
+
         return bookingList.size();
     }
 }

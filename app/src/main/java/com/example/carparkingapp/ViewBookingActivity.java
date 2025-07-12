@@ -45,10 +45,12 @@ public class ViewBookingActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         bookingList.clear();
-                        for (DataSnapshot snap : snapshot.getChildren()) {
-                            ViewBooking booking = snap.getValue(ViewBooking.class);
-                            if (booking != null) {
-                                bookingList.add(booking);
+                        for (DataSnapshot mallSnapshot : snapshot.getChildren()) {
+                            for (DataSnapshot bookingSnapshot : mallSnapshot.getChildren()) {
+                                ViewBooking booking = bookingSnapshot.getValue(ViewBooking.class);
+                                if (booking != null) {
+                                    bookingList.add(booking);
+                                }
                             }
                         }
                         adapter.notifyDataSetChanged();

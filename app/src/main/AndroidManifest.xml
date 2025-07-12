@@ -42,7 +42,7 @@
         <activity
             android:name=".ViewSlot"
             android:exported="false" />
-       
+
         <activity
             android:name=".ManageSlotActivity"
             android:exported="false" />
