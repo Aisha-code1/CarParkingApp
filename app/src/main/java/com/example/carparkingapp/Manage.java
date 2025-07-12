@@ -34,6 +34,7 @@ public class Manage {
         return timing;
     }
     public String getAddress(){
+
         return  address;
     }
 
