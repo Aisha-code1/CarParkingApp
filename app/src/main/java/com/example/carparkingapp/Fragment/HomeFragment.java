@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.carparkingapp.AboutActivity;
+import com.example.carparkingapp.BookingHistoryActivity;
 import com.example.carparkingapp.R;
 import com.example.carparkingapp.ViewSlot;
 
@@ -57,6 +58,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ViewSlot.class);
+                startActivity(intent);
+            }
+        });
+        ImageView history = view.findViewById(R.id.image4);
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), BookingHistoryActivity.class);
                 startActivity(intent);
             }
         });

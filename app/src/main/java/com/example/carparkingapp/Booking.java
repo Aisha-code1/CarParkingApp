@@ -6,7 +6,6 @@ public class Booking {
     public String vehicleType;
     public String vehicleNumber;
     public String days;
-
     public Booking() {}
 
     public Booking(String id, String userId, String vehicleType, String vehicleNumber, String days) {
@@ -15,5 +14,6 @@ public class Booking {
         this.vehicleType = vehicleType;
         this.vehicleNumber = vehicleNumber;
         this.days = days;
+
     }
 }

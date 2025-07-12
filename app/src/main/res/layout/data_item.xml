@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                android:text="Name"
+                android:text="Mall Name"
                 android:padding="10dp"/>
             <TextView
                 android:id="@+id/tv_price"
