@@ -30,13 +30,15 @@ public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingViewHolde
     @Override
     public void onBindViewHolder(@NonNull BookingViewHolder holder, int position) {
         Booking booking = bookinglist.get(position);
+        holder.tvMallName.setText("Mall: " + booking.mallName);
         holder.tvVehicleType.setText("Type: " + booking.vehicleType);
         holder.tvVehicleNumber.setText("Number: " + booking.vehicleNumber);
         holder.tvDays.setText("Days: " + booking.days);
     }
 
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return bookinglist.size();
     }
 }

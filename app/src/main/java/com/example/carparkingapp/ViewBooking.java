@@ -6,15 +6,17 @@ public class ViewBooking {
     public String vehicleType;
     public String vehicleNumber;
     public String days;
+    public String mallName;
 
     public ViewBooking() {}
 
-    public ViewBooking(String id, String userId, String vehicleType, String vehicleNumber, String days) {
+    public ViewBooking(String id, String userId, String vehicleType, String vehicleNumber, String days, String mallName) {
         this.id = id;
         this.userId = userId;
         this.vehicleType = vehicleType;
         this.vehicleNumber = vehicleNumber;
         this.days = days;
+        this.mallName = mallName;
     }
     public String getId() {
 
@@ -41,4 +43,7 @@ public class ViewBooking {
         return days;
     }
 
- }
+        public String getmallName() {
+        return mallName;
+    }
+}

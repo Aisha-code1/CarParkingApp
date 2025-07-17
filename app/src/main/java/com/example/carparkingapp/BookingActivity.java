@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -14,10 +15,13 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.database.ValueEventListener;
 public class BookingActivity extends AppCompatActivity {
     String mallId;
+    String mallName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +31,7 @@ public class BookingActivity extends AppCompatActivity {
         EditText edtdays = findViewById(R.id.days);
         Button booking = findViewById(R.id.book);
         mallId = getIntent().getStringExtra("mallId");
+        mallName = getIntent().getStringExtra("mallName");
         booking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,32 +39,42 @@ public class BookingActivity extends AppCompatActivity {
                 String no = edtno.getText().toString();
                 String days = edtdays.getText().toString();
                 String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                if (type.isEmpty()){
+                if (type.isEmpty()) {
                     Toast.makeText(BookingActivity.this, "Enter vehicle type", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (no.isEmpty()){
+                if (no.isEmpty()) {
                     Toast.makeText(BookingActivity.this, "Enter vehicle no.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (days.isEmpty()){
+                if (days.isEmpty()) {
                     Toast.makeText(BookingActivity.this, "Enter no. of days", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Booking bookings = new Booking();
-                bookings.userId = userId;
-                bookings.vehicleNumber = no;
-                bookings.vehicleType = type;
-                bookings.days = days;
-                FirebaseDatabase.getInstance().getReference("Bookings")
-                        .child(mallId)
-                        .push()
-                        .setValue(bookings);
-                Toast.makeText(BookingActivity.this, "Booking successfull", Toast.LENGTH_SHORT).show();
-                finish();
+
+
+
+                mallName = getIntent().getStringExtra("mallName");
+
+                if (mallName == null) {
+                    Toast.makeText(BookingActivity.this, "Mall name is missing!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                                Booking bookings = new Booking();
+                                bookings.userId = userId;
+                                bookings.mallId = mallId;
+                                bookings.mallName = mallName;
+                                bookings.vehicleNumber = no;
+                                bookings.vehicleType = type;
+                                bookings.days = days;
+                                FirebaseDatabase.getInstance().getReference("Bookings")
+                                        .child(mallId)
+                                        .push()
+                                        .setValue(bookings);
+                                Toast.makeText(BookingActivity.this, "Booking successfull", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+
+                                   });
             }
-
-        });
-
     }
-}

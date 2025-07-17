@@ -6,6 +6,12 @@
     android:padding="16dp">
 
     <TextView
+        android:id="@+id/mall_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mall name"/>
+
+    <TextView
         android:id="@+id/vehicle_type"
         android:text="Vehicle Type "
         android:layout_width="wrap_content"

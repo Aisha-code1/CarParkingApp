@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class DetailActivity extends AppCompatActivity {
     TextView tvName, tvPrice, tvCity, tvTiming, tvAddress;
-    String uuid;
+    String uuid, mallName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +31,14 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(DetailActivity.this, BookingActivity.class);
                 intent.putExtra("mallId", uuid);
+                intent.putExtra("mallName", mallName);
                 startActivity(intent);
             }
         });
 
         Intent intent = getIntent();
         uuid = intent.getStringExtra("uuid");
+        mallName = intent.getStringExtra("name");
         tvName.setText(intent.getStringExtra("name"));
         int price = intent.getIntExtra("price", 0);
         tvPrice.setText("Price: Rs " + price);

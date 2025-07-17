@@ -19,11 +19,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/tv_user"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="User ID:"
+                android:textStyle="bold"
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/tv_mallName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mall name:"
                 android:textStyle="bold"
                 android:padding="10dp"/>
 
