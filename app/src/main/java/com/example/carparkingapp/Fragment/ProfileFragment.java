@@ -1,8 +1,12 @@
 package com.example.carparkingapp.Fragment;
 
+import static java.security.AccessController.getContext;
+
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,8 +16,12 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +42,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class ProfileFragment extends Fragment {
 
@@ -42,6 +56,9 @@ public class ProfileFragment extends Fragment {
     EditText edtName, edtEmail;
     Button btnSave;
     private static final int REQUEST_IMAGE_PICK = 101;
+    private static final int REQUEST_IMAGE_CAPTURE = 102;
+    private static final int REQUEST_CAMERA_PERMISSION = 200;
+
     private Uri imageUri;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String email = user.getEmail();
@@ -71,15 +88,63 @@ public class ProfileFragment extends Fragment {
                           }
                 }
             });
+    private void checkCameraPermissionAndCapture() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(),
+                    new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CAMERA_PERMISSION);
+        } else {
+           captureImage();
+        }
+    }
 
     private void captureImage() {
-        imageUri = getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues());
-        captureImageLauncher.launch(imageUri);
+        File photoFile = null;
+        try {
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+            String imageFileName = "JPEG_" + timeStamp + "_";
+            File storageDir = requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            photoFile = File.createTempFile(imageFileName, ".jpg", storageDir);
+        } catch (IOException ex) {
+            Toast.makeText(getContext(), "Error while creating image file", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (photoFile != null) {
+            imageUri = FileProvider.getUriForFile(
+                    requireContext(),
+                    requireContext().getPackageName() + ".provider",
+                    photoFile
+            );
+            // Grant URI permission
+            requireActivity().grantUriPermission(
+                    requireContext().getPackageName(),
+                    imageUri,
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION
+            );
+            captureImageLauncher.launch(imageUri);
+        }
     }
 
     private void pickImage() {
+
         pickImageLauncher.launch("image/*");
     }
+    private void showImageSourceDialog() {
+        String[] options = {"Capture from Camera", "Choose from Gallery"};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Select Image Source");
+        builder.setItems(options, (dialog, which) -> {
+            if (which == 0) {
+              checkCameraPermissionAndCapture();
+            } else {
+                pickImage();
+            }
+        });
+        builder.show();
+    }
+
     private void uploadImageToFirebase(Uri uri) {
         String imageString = MyUtil.imageUriToBase64(uri, requireActivity().getContentResolver());
         if (imageString != null) {
@@ -182,15 +247,9 @@ public class ProfileFragment extends Fragment {
             tvEmail.setVisibility(View.GONE);
         });
 
-        imgCameraIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                captureImage();
-            //    pickImage();
-            }
-
-
-           });
+        imgCameraIcon.setOnClickListener(v -> {
+            showImageSourceDialog();
+        });
 
 
         btnSave.setOnClickListener(v -> {
@@ -226,14 +285,17 @@ public class ProfileFragment extends Fragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
                 builder.setTitle("Confirmation");
                 builder.setMessage("Are you sure you want to logout");
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        FirebaseAuth.getInstance().signOut();
+                        Intent intent = new Intent(requireActivity(), LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
+                        requireActivity().finish();
                     }
                 });
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {

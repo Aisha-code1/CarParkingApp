@@ -25,6 +25,10 @@ public class BottomnavigationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottomnavigation);
        BottomNavigationView bottomNav = findViewById(R.id.bottom_nav);
+        if (savedInstanceState == null) {
+            loadFragment(new AdminHomeFragment());
+            bottomNav.setSelectedItemId(R.id.item_home);
+        }
        bottomNav.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
            @Override
            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
