@@ -8,17 +8,19 @@ public class ViewBooking {
     String vehicleType;
     String vehicleNumber;
     String contactNo;
+    String date;
 
-    public ViewBooking() {
+    public ViewBooking(String bookingId, String mallName, String vehicleType, String vehicleNo, String contactNo) {
 
     }
 
-    public ViewBooking(String userId, String mallName, String vehicleType, String vehicleNumber, String contactNo) {
+    public ViewBooking(String userId, String mallName, String vehicleType, String vehicleNumber, String contactNo,String date) {
         this.userId = userId;
         this.mallName = mallName;
         this.vehicleType = vehicleType;
         this.vehicleNumber = vehicleNumber;
         this.contactNo = contactNo;
+        this.date = date;
     }
 
     public String getUserId() {
@@ -39,6 +41,9 @@ public class ViewBooking {
 
     public String getContactNo() {
         return contactNo;
+    }
+    public String getDate(){
+        return date;
     }
 }
 

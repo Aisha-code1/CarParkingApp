@@ -50,7 +50,14 @@
                 android:text="Vehicle No:"
                 android:padding="10dp"/>
             <TextView
-                android:id="@+id/tvContactNo"
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:padding="10dp"/>
+
+            <TextView
+                android:id="@+id/contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Contact No:"

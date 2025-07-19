@@ -35,6 +35,7 @@ public class ViewBookingAdapter extends RecyclerView.Adapter<ViewBookingHolder> 
         holder.tvMallName.setText("Mall name: " + viewbooking.getMallName());
         holder.tvVehicleType.setText("Vehicle Type: " + viewbooking.getVehicleType());
         holder.tvVehicleNo.setText("Vehicle No: " + viewbooking.getVehicleNumber());
+        holder.tvDate.setText("Date: " + viewbooking.getDate());
         holder.tvContactNo.setText("Contact No: " + viewbooking.getContactNo());
     }
 
