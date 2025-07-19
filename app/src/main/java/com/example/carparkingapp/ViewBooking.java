@@ -1,24 +1,31 @@
 package com.example.carparkingapp;
 
 
-public class ViewBooking {
 
-    String userId;
-    String mallName;
-    String vehicleType;
-    String vehicleNumber;
-    String contactNo;
+public class ViewBooking {
+    private String id;
+    private String userId;
+    private String mallName;
+    private String vehicleType;
+    private String vehicleNumber;
+    private String contactNo;
 
     public ViewBooking() {
 
     }
 
-    public ViewBooking(String userId, String mallName, String vehicleType, String vehicleNumber, String contactNo) {
+    public ViewBooking(String id, String userId, String mallName, String vehicleType, String vehicleNumber, String contactNo) {
+        this.id = id;
         this.userId = userId;
         this.mallName = mallName;
         this.vehicleType = vehicleType;
         this.vehicleNumber = vehicleNumber;
         this.contactNo = contactNo;
+    }
+
+
+    public String getId() {
+        return id;
     }
 
     public String getUserId() {
@@ -40,6 +47,8 @@ public class ViewBooking {
     public String getContactNo() {
         return contactNo;
     }
+
+
 }
 
 

@@ -47,13 +47,13 @@
                 android:id="@+id/vehicle_no"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vehicle No:"
+                android:text="Vehicle Number"
                 android:padding="10dp"/>
             <TextView
-                android:id="@+id/tvContactNo"
+                android:id="@+id/tv_ContactNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Contact No:"
+                android:text="Contact No"
                 android:padding="10dp" />
 
 

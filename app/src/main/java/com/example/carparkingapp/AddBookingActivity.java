@@ -41,26 +41,30 @@ public class AddBookingActivity extends AppCompatActivity {
             return;
         }
 
-        String bookingId = FirebaseDatabase.getInstance().getReference("Bookings").push().getKey();
-        ViewBooking booking = new ViewBooking(bookingId, mallName, vehicleType, vehicleNo, contactNo);
+        String userId = "admin-added";
+        String bookingId = FirebaseDatabase.getInstance()
+                .getReference("Bookings")
+                .push()
+                .getKey();
+
+        ViewBooking booking = new ViewBooking(bookingId,userId, mallName, vehicleType, vehicleNo, contactNo);
 
         FirebaseDatabase.getInstance().getReference("Bookings")
                 .child(bookingId)
                 .setValue(booking)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Booking added successfully", Toast.LENGTH_SHORT).show();
-                    clearFields();
+                   clearFields();
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
-
     private void clearFields() {
         etMallName.setText("");
         etVehicleType.setText("");
         etVehicleNumber.setText("");
         etContactNo.setText("");
     }
+
+
 }
-
-
