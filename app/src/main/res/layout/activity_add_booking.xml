@@ -86,7 +86,7 @@
             android:textSize="20sp"
             android:textStyle="bold"/>
         <EditText
-            android:id="@+id/et_contact_no"
+            android:id="@+id/contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Contact NO"
@@ -94,6 +94,23 @@
             android:background="@drawable/edittext_background"
             android:padding="12dp"
             android:layout_marginBottom="24dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Date"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+        <EditText
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Date"
+            android:textColor="@color/black"
+            android:background="@drawable/edittext_background"
+            android:padding="12dp"
+            android:layout_marginBottom="24dp" />
+
 
         <Button
             android:id="@+id/btn_add_booking"

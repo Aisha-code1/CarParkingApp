@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ViewBookingHolder extends RecyclerView.ViewHolder {
 
-    TextView userId, tvMallName, tvVehicleType, tvVehicleNo, tvContactNo;
+    TextView userId, tvMallName, tvVehicleType, tvVehicleNo,   tvContactNo, tvDate ;
 
 
 
@@ -19,7 +19,8 @@ public class ViewBookingHolder extends RecyclerView.ViewHolder {
         tvVehicleType = itemView.findViewById(R.id.vehicle_type);
         tvVehicleNo = itemView.findViewById(R.id.vehicle_no);
 
-
+        tvContactNo = itemView.findViewById(R.id.contact);
+        tvDate = itemView.findViewById(R.id.date);
 
 
     }
