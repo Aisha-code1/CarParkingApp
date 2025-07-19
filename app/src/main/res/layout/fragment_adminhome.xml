@@ -27,7 +27,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Admin Dashboard"
-
                     android:textSize="30sp"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
@@ -39,6 +38,7 @@
                 android:layout_marginTop="20dp"
                 android:orientation="horizontal"
                 android:gravity="center">
+
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/manageSlot"
@@ -74,6 +74,7 @@
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/viewBooking"
                     android:layout_width="160dp"
@@ -103,6 +104,48 @@
                             android:layout_below="@id/image_booking"
                             android:layout_marginTop="5dp"
                             android:text="View Booking"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/addBooking"
+                    android:layout_width="160dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="10dp"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="10dp"
+                    android:clickable="true"
+                    app:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/image_addbooking"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
+                            android:layout_centerHorizontal="true"
+                            android:padding="10dp"
+                            android:src="@drawable/add" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_below="@id/image_addbooking"
+                            android:layout_marginTop="5dp"
+                            android:text="Add Booking"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
                     </RelativeLayout>

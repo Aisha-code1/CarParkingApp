@@ -49,13 +49,14 @@
                 android:layout_height="wrap_content"
                 android:text="Vehicle No:"
                 android:padding="10dp"/>
-
             <TextView
-                android:id="@+id/days"
+                android:id="@+id/tvContactNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Days:"
-                android:padding="10dp"/>
+                android:text="Contact No:"
+                android:padding="10dp" />
+
+
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
