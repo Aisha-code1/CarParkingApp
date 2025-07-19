@@ -1,8 +1,10 @@
 package com.example.carparkingapp;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
@@ -16,16 +18,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Calendar;
+
+
 
     public class BookingActivity extends AppCompatActivity {
         String mallId;
         String mallName;
+
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_booking);
             EditText edttype = findViewById(R.id.vehicle_type);
-            EditText  edtno = findViewById(R.id.vehicle_no);
+            EditText edtno = findViewById(R.id.vehicle_no);
             Button booking = findViewById(R.id.book);
 
             mallId = getIntent().getStringExtra("mallId");
@@ -47,8 +53,6 @@ import com.google.firebase.database.FirebaseDatabase;
                     }
 
 
-
-
                     mallName = getIntent().getStringExtra("mallName");
 
                     if (mallName == null) {
@@ -67,9 +71,8 @@ import com.google.firebase.database.FirebaseDatabase;
                             .setValue(bookings);
                     Toast.makeText(com.example.carparkingapp.BookingActivity.this, "Booking successfull", Toast.LENGTH_SHORT).show();
                     finish();
-                }
 
+                }
             });
         }
     }
-

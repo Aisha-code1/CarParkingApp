@@ -7,7 +7,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ViewBookingHolder extends RecyclerView.ViewHolder {
+
     TextView userId, tvMallName, tvVehicleType, tvVehicleNo, tvContactNo;
+
+
 
     public ViewBookingHolder(@NonNull View itemView) {
         super(itemView);
@@ -15,6 +18,9 @@ public class ViewBookingHolder extends RecyclerView.ViewHolder {
         tvMallName = itemView.findViewById(R.id.tv_mallName);
         tvVehicleType = itemView.findViewById(R.id.vehicle_type);
         tvVehicleNo = itemView.findViewById(R.id.vehicle_no);
-        tvContactNo = itemView.findViewById(R.id.tv_ContactNo);
+
+
+
+
     }
 }

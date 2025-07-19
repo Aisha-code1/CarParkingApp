@@ -33,6 +33,9 @@ public class BookingHistoryAdapter extends RecyclerView.Adapter<BookingViewHolde
         holder.tvMallName.setText("Mall: " + booking.mallName);
         holder.tvVehicleType.setText("Type: " + booking.vehicleType);
         holder.tvVehicleNumber.setText("Number: " + booking.vehicleNumber);
+        holder.tvdate.setText("Date: " + booking.date);
+        holder.tvContactNo.setText("Contact No: " + booking.ContactNo);
+
     }
 
     @Override

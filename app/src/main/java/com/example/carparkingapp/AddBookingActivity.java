@@ -47,7 +47,7 @@ public class AddBookingActivity extends AppCompatActivity {
                 .push()
                 .getKey();
 
-        ViewBooking booking = new ViewBooking(bookingId,userId, mallName, vehicleType, vehicleNo, contactNo);
+        ViewBooking booking = new ViewBooking(bookingId, userId, mallName, vehicleType, vehicleNo);
 
         FirebaseDatabase.getInstance().getReference("Bookings")
                 .child(bookingId)
@@ -63,7 +63,7 @@ public class AddBookingActivity extends AppCompatActivity {
         etMallName.setText("");
         etVehicleType.setText("");
         etVehicleNumber.setText("");
-        etContactNo.setText("");
+
     }
 
 

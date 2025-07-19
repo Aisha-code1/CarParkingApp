@@ -24,8 +24,13 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/days"
-        android:text="No of Days "
+        android:id="@+id/date"
+        android:text="Date "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/contact"
+        android:text="Contact no. "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
