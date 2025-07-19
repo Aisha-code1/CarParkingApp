@@ -12,17 +12,17 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class AddBookingActivity extends AppCompatActivity {
 
-    EditText etMallName, etVehicleType, etVehicleNo, etContactNo;
+    EditText etMallName, etVehicleType, etVehicleNumber, etContactNo;
     Button btnAddBooking;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_booking_actvity); 
+        setContentView(R.layout.activity_add_booking);
 
-        etMallName = findViewById(R.id.et_Name); // mall name
+        etMallName = findViewById(R.id.et_Name);
         etVehicleType = findViewById(R.id.et_vehicle_type);
-        etVehicleNo = findViewById(R.id.et_vehicle_no);
+        etVehicleNumber = findViewById(R.id.et_vehicle_no);
         etContactNo = findViewById(R.id.et_contact_no);
         btnAddBooking = findViewById(R.id.btn_add_booking);
 
@@ -32,7 +32,7 @@ public class AddBookingActivity extends AppCompatActivity {
     private void addBooking() {
         String mallName = etMallName.getText().toString().trim();
         String vehicleType = etVehicleType.getText().toString().trim();
-        String vehicleNo = etVehicleNo.getText().toString().trim();
+        String vehicleNo = etVehicleNumber.getText().toString().trim();
         String contactNo = etContactNo.getText().toString().trim();
 
         if (TextUtils.isEmpty(mallName) || TextUtils.isEmpty(vehicleType)
@@ -58,7 +58,7 @@ public class AddBookingActivity extends AppCompatActivity {
     private void clearFields() {
         etMallName.setText("");
         etVehicleType.setText("");
-        etVehicleNo.setText("");
+        etVehicleNumber.setText("");
         etContactNo.setText("");
     }
 }

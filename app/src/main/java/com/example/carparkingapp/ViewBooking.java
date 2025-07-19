@@ -6,18 +6,18 @@ public class ViewBooking {
     String userId;
     String mallName;
     String vehicleType;
-    String vehicleNo;
+    String vehicleNumber;
     String contactNo;
 
-
     public ViewBooking() {
+
     }
 
-    public ViewBooking(String userId, String mallName, String vehicleType, String vehicleNo, String contactNo) {
+    public ViewBooking(String userId, String mallName, String vehicleType, String vehicleNumber, String contactNo) {
         this.userId = userId;
         this.mallName = mallName;
         this.vehicleType = vehicleType;
-        this.vehicleNo = vehicleNo;
+        this.vehicleNumber = vehicleNumber;
         this.contactNo = contactNo;
     }
 
@@ -33,13 +33,13 @@ public class ViewBooking {
         return vehicleType;
     }
 
-    public String getVehicleNo() {
-        return vehicleNo;
+    public String getVehicleNumber() {
+        return vehicleNumber;
     }
 
     public String getContactNo() {
         return contactNo;
     }
-
-
 }
+
+

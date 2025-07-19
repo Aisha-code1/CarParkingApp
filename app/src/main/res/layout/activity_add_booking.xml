@@ -65,14 +65,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Vehicle No"
+            android:text="Vehicle Number"
             android:textSize="20sp"
             android:textStyle="bold"/>
         <EditText
             android:id="@+id/et_vehicle_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Vehicle No"
+            android:hint="Vehicle Number"
             android:textColor="@color/black"
             android:background="@drawable/edittext_background"
             android:padding="12dp"
