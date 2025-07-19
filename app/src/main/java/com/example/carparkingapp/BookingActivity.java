@@ -32,7 +32,38 @@ import java.util.Calendar;
             setContentView(R.layout.activity_booking);
             EditText edttype = findViewById(R.id.vehicle_type);
             EditText edtno = findViewById(R.id.vehicle_no);
+            EditText  edtdate = findViewById(R.id.date);
+            EditText  edtcontact = findViewById(R.id.contact);
             Button booking = findViewById(R.id.book);
+            edtdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Calendar calendar = Calendar.getInstance();
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH);
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+                    DatePickerDialog startPicker = new DatePickerDialog(BookingActivity.this, (view, y, m, d) -> {
+                        String startDate = d + "/" + (m + 1) + "/" + y;
+
+                        Calendar minEnd = Calendar.getInstance();
+                        minEnd.set(y, m, d);
+
+                        DatePickerDialog endPicker = new DatePickerDialog(BookingActivity.this, (view2, y2, m2, d2) -> {
+                            String endDate = d2 + "/" + (m2 + 1) + "/" + y2;
+                            edtdate.setText(startDate + " to " + endDate);
+                        }, y, m, d);
+
+                        endPicker.getDatePicker().setMinDate(minEnd.getTimeInMillis());
+                        endPicker.show();
+
+                    }, year, month, day);
+
+                    startPicker.getDatePicker().setMinDate(System.currentTimeMillis());
+                    startPicker.show();
+                }
+            });
+
 
             mallId = getIntent().getStringExtra("mallId");
             mallName = getIntent().getStringExtra("mallName");
@@ -41,6 +72,8 @@ import java.util.Calendar;
                 public void onClick(View v) {
                     String type = edttype.getText().toString();
                     String no = edtno.getText().toString();
+                    String date = edtdate.getText().toString();
+                    String contact = edtcontact.getText().toString();
 
                     String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     if (type.isEmpty()) {
@@ -51,7 +84,14 @@ import java.util.Calendar;
                         Toast.makeText(com.example.carparkingapp.BookingActivity.this, "Enter vehicle no.", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
+                    if (date.isEmpty()) {
+                        Toast.makeText(com.example.carparkingapp.BookingActivity.this, "Enter date", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (contact.isEmpty()) {
+                        Toast.makeText(com.example.carparkingapp.BookingActivity.this, "Enter contact", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     mallName = getIntent().getStringExtra("mallName");
 
@@ -65,6 +105,8 @@ import java.util.Calendar;
                     bookings.mallName = mallName;
                     bookings.vehicleNumber = no;
                     bookings.vehicleType = type;
+                    bookings.date = date;
+                    bookings.ContactNo = contact;
                     FirebaseDatabase.getInstance().getReference("Bookings")
                             .child(mallId)
                             .push()

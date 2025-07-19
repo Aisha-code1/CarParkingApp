@@ -1,6 +1,7 @@
 package com.example.carparkingapp;
 
 public class ViewBooking {
+
     private String id;
     private String userId;
     private String mallName;
@@ -8,6 +9,11 @@ public class ViewBooking {
     private String vehicleNumber;
     private String contactNo;
     private String date;
+
+
+
+
+
 
     // Required empty constructor for Firebase
     public ViewBooking() {
@@ -35,14 +41,17 @@ public class ViewBooking {
     }
 
     public String getMallName() {
+
         return mallName;
     }
 
     public String getVehicleType() {
+
         return vehicleType;
     }
 
     public String getVehicleNumber() {
+
         return vehicleNumber;
     }
 
