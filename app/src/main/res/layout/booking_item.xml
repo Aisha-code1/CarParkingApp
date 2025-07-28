@@ -1,56 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp"
-    app:cardElevation="15dp"
-    app:cardUseCompatPadding="true">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/mall_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:orientation="horizontal">
+        android:text="Mall name"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/vehicle_type"
+        android:text="Vehicle Type "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/tv_user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="User ID:"
-                android:textStyle="bold"
-                android:padding="10dp"/>
+    <TextView
+        android:id="@+id/vehicle_no"
+        android:text="Vehicle No. "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/tv_mallName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mall name:"
-                android:textStyle="bold"
-                android:padding="10dp"/>
+    <TextView
+        android:id="@+id/date"
+        android:text="Date "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/contact"
+        android:text="Contact no. "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-            <TextView
-                android:id="@+id/vehicle_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vehicle Type:"
-                android:padding="10dp"/>
-
-            <TextView
-                android:id="@+id/vehicle_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Vehicle Number"
-                android:padding="10dp"/>
-
-
-        </LinearLayout>
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+</LinearLayout>

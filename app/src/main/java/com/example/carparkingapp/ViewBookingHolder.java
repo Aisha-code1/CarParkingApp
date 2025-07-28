@@ -1,27 +1,19 @@
 package com.example.carparkingapp;
-
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class ViewBookingHolder extends RecyclerView.ViewHolder {
 
-    TextView userId, tvMallName, tvVehicleType, tvVehicleNo,   tvContactNo, tvDate ;
-
-
+    TextView tvMallName, tvVehicleType, tvVehicleNo, tvDate, tvContactNo;
 
     public ViewBookingHolder(@NonNull View itemView) {
         super(itemView);
-        userId = itemView.findViewById(R.id.tv_user);
-        tvMallName = itemView.findViewById(R.id.tv_mallName);
+        tvMallName = itemView.findViewById(R.id.mall_name);
         tvVehicleType = itemView.findViewById(R.id.vehicle_type);
         tvVehicleNo = itemView.findViewById(R.id.vehicle_no);
-
-        tvContactNo = itemView.findViewById(R.id.contact);
         tvDate = itemView.findViewById(R.id.date);
-
-
+        tvContactNo = itemView.findViewById(R.id.contact);
     }
 }

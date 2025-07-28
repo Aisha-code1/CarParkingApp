@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.carparkingapp.AddBookingActivity;
-import com.example.carparkingapp.BookingActivity;
 import com.example.carparkingapp.ManageSlotActivity;
 import com.example.carparkingapp.R;
 import com.example.carparkingapp.ViewBookingActivity;
@@ -49,16 +47,12 @@ public class AdminHomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_adminhome, container, false);
         CardView manageSlot = view.findViewById(R.id.manageSlot);
         CardView viewBooking = view.findViewById(R.id.viewBooking);
-        CardView addBooking  = view.findViewById(R.id.addBooking);
+
         manageSlot.setOnClickListener(v -> {
             startActivity(new Intent(getContext(),ManageSlotActivity.class));
         });
         viewBooking.setOnClickListener(v -> {
             startActivity(new Intent(getContext(), ViewBookingActivity.class));
-        });
-       addBooking.setOnClickListener(v -> {
-           startActivity(new Intent(getContext(), AddBookingActivity.class));
-
         });
 
         return view;
