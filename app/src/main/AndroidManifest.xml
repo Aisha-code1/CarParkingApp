@@ -63,9 +63,7 @@
         <activity
             android:name=".ManageSlotActivity"
             android:exported="false" />
-        <activity
-            android:name=".AddBookingActivity"
-            android:exported="false" />
+
         <activity
             android:name=".AboutActivity"
             android:exported="false" />
