@@ -65,9 +65,11 @@
         <activity
             android:name=".ManageSlotActivity"
             android:exported="false" />
+
         <activity
             android:name=".ViewFeedbackActivity"
             android:exported="false" />
+
 
         <activity
             android:name=".AboutActivity"
