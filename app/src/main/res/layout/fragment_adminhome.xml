@@ -118,7 +118,7 @@
                 android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/addBooking"
+                    android:id="@+id/viewFeedback"
                     android:layout_width="160dp"
                     android:layout_height="150dp"
                     android:layout_margin="10dp"
@@ -132,20 +132,20 @@
                         android:layout_height="match_parent">
 
                         <ImageView
-                            android:id="@+id/image_addbooking"
+                            android:id="@+id/image_viewfeedback"
                             android:layout_width="75dp"
                             android:layout_height="75dp"
                             android:layout_centerHorizontal="true"
                             android:padding="10dp"
-                            android:src="@drawable/add" />
+                            android:src="@drawable/viewfeedback" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:layout_below="@id/image_addbooking"
+                            android:layout_below="@id/image_viewfeedback"
                             android:layout_marginTop="5dp"
-                            android:text="Add Booking"
+                            android:text="View Feedback"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
                     </RelativeLayout>

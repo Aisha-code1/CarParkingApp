@@ -15,8 +15,8 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28"
         tools:ignore="ScopedStorage" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -45,9 +45,11 @@
         <activity
             android:name=".BookingHistoryActivity"
             android:exported="false" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDQUTAl95p0pOX_MCcOEivJgUnZFrPDUdc" />
+
         <activity
             android:name=".ViewBookingActivity"
             android:exported="false" />
@@ -64,8 +66,9 @@
             android:name=".ManageSlotActivity"
             android:exported="false" />
         <activity
-            android:name=".AddBookingActivity"
+            android:name=".ViewFeedbackActivity"
             android:exported="false" />
+
         <activity
             android:name=".AboutActivity"
             android:exported="false" />

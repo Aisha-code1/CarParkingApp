@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.carparkingapp.ManageSlotActivity;
 import com.example.carparkingapp.R;
 import com.example.carparkingapp.ViewBookingActivity;
+import com.example.carparkingapp.ViewFeedbackActivity;
 
 
 public class AdminHomeFragment extends Fragment {
@@ -47,6 +48,8 @@ public class AdminHomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_adminhome, container, false);
         CardView manageSlot = view.findViewById(R.id.manageSlot);
         CardView viewBooking = view.findViewById(R.id.viewBooking);
+        CardView viewFeedback = view.findViewById(R.id.viewFeedback);
+
 
         manageSlot.setOnClickListener(v -> {
             startActivity(new Intent(getContext(),ManageSlotActivity.class));
@@ -54,6 +57,9 @@ public class AdminHomeFragment extends Fragment {
         viewBooking.setOnClickListener(v -> {
             startActivity(new Intent(getContext(), ViewBookingActivity.class));
         });
+       viewFeedback.setOnClickListener(v -> {
+           startActivity(new Intent(getContext(), ViewFeedbackActivity.class ));
+       });
 
         return view;
     }

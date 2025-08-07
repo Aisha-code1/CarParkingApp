@@ -52,7 +52,7 @@ RecyclerView rvManage;
                                 manageList.add(manage);
                             }
                         }
-                        ManageAdapter adapter = new ManageAdapter(manageList, ManageSlotActivity.this, true); // ✅ true = admin
+                        ManageAdapter adapter = new ManageAdapter(manageList, ManageSlotActivity.this, true);
 
                         rvManage.setAdapter(adapter);
                     }
