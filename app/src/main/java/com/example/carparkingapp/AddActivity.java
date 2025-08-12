@@ -65,6 +65,7 @@ public class AddActivity extends AppCompatActivity {
             editId = getIntent().getStringExtra("id");
             etName.setText(getIntent().getStringExtra("name"));
             etPrice.setText(String.valueOf(getIntent().getStringExtra("price")));
+            edtPrice.setText(String.valueOf(getIntent().getStringExtra("rs")));
             etCity.setText(getIntent().getStringExtra("city"));
             etTiming.setText(getIntent().getStringExtra("timing"));
             etAddress.setText(getIntent().getStringExtra("address"));
