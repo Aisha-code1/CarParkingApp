@@ -4,7 +4,7 @@ public class Manage {
     public String name, id;
     public String city, timing,address;
 
-    public  int price;
+    public  int price, rs;
     public Manage(String name, int price, int rs, String city, String timing, String address){
 
     }
@@ -24,6 +24,10 @@ public class Manage {
     public int getPrice() {
 
         return price;
+    }
+    public int getRs() {
+
+        return rs;
     }
     public String getCity() {
 

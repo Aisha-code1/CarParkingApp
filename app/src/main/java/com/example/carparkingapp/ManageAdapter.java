@@ -47,7 +47,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
             holder.ivDelete.setVisibility(View.VISIBLE);
             holder.ivEdit.setVisibility(View.VISIBLE);
             holder.hourly_price.setText("Price: Rs " + manage.price);
-            holder.daily_price.setText("Price: Rs " + manage.price);
+            holder.daily_price.setText("Price: Rs " + manage.rs);
             holder.tvTiming.setText("Timing: " + manage.timing);
             holder.tvAddress.setText("Address: " + manage.address);
 
@@ -72,7 +72,8 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
                 intent.putExtra("edit_mode", true);
                 intent.putExtra("id", manage.id);
                 intent.putExtra("name", manage.name);
-                intent.putExtra("price", manage.price);
+                intent.putExtra("hourly_price", manage.price);
+                intent.putExtra("daily_price", manage.rs);
                 intent.putExtra("city", manage.city);
                 intent.putExtra("timing", manage.timing);
                 intent.putExtra("address", manage.address);
@@ -91,7 +92,8 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
                 Intent intent = new Intent(context, DetailActivity.class);
                 intent.putExtra("uuid", manage.id);
                 intent.putExtra("name", manage.getName());
-                intent.putExtra("price", manage.getPrice());
+                intent.putExtra("hourly_price", manage.getPrice());
+                intent.putExtra("daily_price", manage.getRs());
                 intent.putExtra("city", manage.getCity());
                 intent.putExtra("timing", manage.getTiming());
                 intent.putExtra("address", manage.getAddress());
