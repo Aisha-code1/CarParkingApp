@@ -5,10 +5,7 @@ public class Manage {
     public String city, timing,address;
 
     public  int price, rs;
-    public Manage(String name, int price, int rs, String city, String timing, String address){
-
-    }
-    public Manage (String name, int price, String city, String timing,String address) {
+       public Manage (String name, int price, int rs, String city, String timing,String address) {
         this.name = name;
         this.price = price;
         this.city = city;
