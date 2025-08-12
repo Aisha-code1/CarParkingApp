@@ -40,13 +40,14 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
         holder.tvCity.setText(manage.city);
 
         if (isAdmin) {
-            holder.tvPrice.setVisibility(View.VISIBLE);
+            holder.daily_price.setVisibility(View.VISIBLE);
+            holder.hourly_price.setVisibility(View.VISIBLE);
             holder.tvTiming.setVisibility(View.VISIBLE);
             holder.tvAddress.setVisibility(View.VISIBLE);
             holder.ivDelete.setVisibility(View.VISIBLE);
             holder.ivEdit.setVisibility(View.VISIBLE);
-
-            holder.tvPrice.setText("Price: Rs " + manage.price);
+            holder.hourly_price.setText("Price: Rs " + manage.price);
+            holder.daily_price.setText("Price: Rs " + manage.price);
             holder.tvTiming.setText("Timing: " + manage.timing);
             holder.tvAddress.setText("Address: " + manage.address);
 
@@ -79,7 +80,8 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageViewHolder> {
             });
 
         } else {
-            holder.tvPrice.setVisibility(View.GONE);
+            holder.hourly_price.setVisibility(View.GONE);
+            holder.daily_price.setVisibility(View.GONE);
             holder.tvTiming.setVisibility(View.GONE);
             holder.tvAddress.setVisibility(View.GONE);
             holder.ivDelete.setVisibility(View.GONE);
