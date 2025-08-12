@@ -23,13 +23,40 @@
            android:layout_gravity="center"
            />
        <TextView
+           android:layout_marginTop="10dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Booking Type"
+           android:textSize="20sp"
+           android:textStyle="bold" />
+
+       <RadioGroup
+           android:id="@+id/bookingTypeGroup"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:layout_marginBottom="10dp">
+
+           <RadioButton
+               android:id="@+id/rbDaily"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Daily"
+               android:checked="true" />
+
+           <RadioButton
+               android:id="@+id/rbHourly"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Hourly" />
+       </RadioGroup>
+       <TextView
            android:layout_margin="10dp"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="Vehicle Type"
            android:textSize="20sp"
-           android:textStyle="bold"
-                      />
+           android:textStyle="bold" />
 
 
        <EditText
@@ -59,6 +86,7 @@
            android:padding="10dp"
            />
        <TextView
+           android:id="@+id/datelabel"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="Date"
@@ -100,6 +128,14 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="Book Now"
+           android:layout_gravity="center"
+           android:layout_marginTop="10dp"
+           />
+       <Button
+           android:id="@+id/pay"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Pay"
            android:layout_gravity="center"
            android:layout_marginTop="10dp"
            />

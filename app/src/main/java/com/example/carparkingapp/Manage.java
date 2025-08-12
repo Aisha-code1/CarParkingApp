@@ -5,7 +5,7 @@ public class Manage {
     public String city, timing,address;
 
     public  int price;
-    public Manage(){
+    public Manage(String name, int price, int rs, String city, String timing, String address){
 
     }
     public Manage (String name, int price, String city, String timing,String address) {

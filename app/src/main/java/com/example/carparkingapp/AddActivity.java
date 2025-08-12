@@ -15,7 +15,7 @@ import java.util.Calendar;
 
 public class AddActivity extends AppCompatActivity {
 
-    EditText etName, etPrice, etCity, etTiming, etAddress;
+    EditText etName, etPrice, edtPrice, etCity, etTiming, etAddress;
     Button save;
     boolean isEdit = false;
     String editId = null;
@@ -27,6 +27,7 @@ public class AddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add);
         etName = findViewById(R.id.et_Name);
         etPrice = findViewById(R.id.et_Price);
+        edtPrice = findViewById(R.id.edt_Price);
         etCity = findViewById(R.id.et_city);
         etTiming = findViewById(R.id.et_timing);
         etAddress = findViewById(R.id.et_address);
@@ -75,6 +76,7 @@ public class AddActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String name = etName.getText().toString().trim();
                 String priceStr = etPrice.getText().toString().trim();
+                String pricestr = edtPrice.getText().toString().trim();
                 String city = etCity.getText().toString().trim();
                 String timing = etTiming.getText().toString().trim();
                 String address = etAddress.getText().toString().trim();
@@ -84,7 +86,12 @@ public class AddActivity extends AppCompatActivity {
                     return;
                 }
                 if (priceStr.isEmpty()) {
-                    etPrice.setError("Enter price");
+                    etPrice.setError("Enter Hourly Price");
+                    etPrice.requestFocus();
+                    return;
+                }
+                if (pricestr.isEmpty()) {
+                    etPrice.setError("Enter Daily Price");
                     etPrice.requestFocus();
                     return;
                 }
@@ -106,15 +113,18 @@ public class AddActivity extends AppCompatActivity {
                 }
 
 
-                int price;
+                int price, Rs;
                 try {
                     price = Integer.parseInt(priceStr);
+                    Rs = Integer.parseInt(pricestr);
                 } catch (NumberFormatException e) {
                     etPrice.setError("Enter valid number");
                     etPrice.requestFocus();
+                    edtPrice.setError("Enter valid number");
+                    edtPrice.requestFocus();
                     return;
                 }
-                Manage manage = new Manage(name, price, city, timing, address);
+                Manage manage = new Manage(name, price, Rs, city, timing, address);
 
                 if (isEdit) {
                     FirebaseDatabase.getInstance().getReference("Manage")

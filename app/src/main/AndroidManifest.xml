@@ -24,11 +24,13 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@null"
         android:supportsRtl="true"
         android:theme="@style/Theme.CarParkingApp"
         tools:targetApi="31">
-       
+        <activity
+            android:name=".PaymentActivity"
+            android:exported="false" />
         <activity
             android:name=".FeedbackActivity"
             android:exported="false" />

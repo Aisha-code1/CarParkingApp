@@ -9,11 +9,12 @@ public class Booking {
     public String mallId;
     public String date;
     public String ContactNo;
+    public String bookingType;
 
     public Booking() {}
 
 
-    public Booking(String id, String userId, String vehicleType, String vehicleNumber, String date, String mallName, String ContactNo) {
+    public Booking(String id, String userId, String vehicleType, String vehicleNumber, String date, String mallName, String ContactNo, String bookingType) {
 
         this.id = id;
         this.userId = userId;
@@ -22,5 +23,6 @@ public class Booking {
         this.date = date;
         this.mallName = mallName;
         this.ContactNo = ContactNo;
+        this.bookingType = bookingType;
     }
 }

@@ -9,12 +9,13 @@ public class ViewBooking {
     public String mallName;
     public String mallId;
     public String date;
-    public String ContactNo; 
+    public String ContactNo;
+    public String bookingType;
 
     public ViewBooking() { }
 
     public ViewBooking(String id, String userId, String vehicleType, String vehicleNumber,
-                       String date, String mallName, String ContactNo) {
+                       String date, String mallName, String ContactNo, String bookingType) {
         this.id = id;
         this.userId = userId;
         this.vehicleType = vehicleType;
@@ -22,6 +23,7 @@ public class ViewBooking {
         this.date = date;
         this.mallName = mallName;
         this.ContactNo = ContactNo;
+        this.bookingType = bookingType;
     }
 }
 

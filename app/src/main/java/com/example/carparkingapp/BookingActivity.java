@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -25,6 +27,9 @@ import java.util.Calendar;
     public class BookingActivity extends AppCompatActivity {
         String mallId;
         String mallName;
+        RadioGroup bookingTypeGroup;
+        Button booking, pay;
+        TextView dateLabel;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +40,11 @@ import java.util.Calendar;
             EditText  edtdate = findViewById(R.id.date);
             EditText  edtcontact = findViewById(R.id.contact);
             Button booking = findViewById(R.id.book);
-            edtdate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            pay = findViewById(R.id.pay);
+            bookingTypeGroup = findViewById(R.id.bookingTypeGroup);
+            dateLabel = findViewById(R.id.datelabel);
+            edtdate.setOnClickListener(v -> {
+                if (bookingTypeGroup.getCheckedRadioButtonId() == R.id.rbDaily) {
                     final Calendar calendar = Calendar.getInstance();
                     int year = calendar.get(Calendar.YEAR);
                     int month = calendar.get(Calendar.MONTH);
@@ -45,7 +52,6 @@ import java.util.Calendar;
 
                     DatePickerDialog startPicker = new DatePickerDialog(BookingActivity.this, (view, y, m, d) -> {
                         String startDate = d + "/" + (m + 1) + "/" + y;
-
                         Calendar minEnd = Calendar.getInstance();
                         minEnd.set(y, m, d);
 
@@ -56,14 +62,14 @@ import java.util.Calendar;
 
                         endPicker.getDatePicker().setMinDate(minEnd.getTimeInMillis());
                         endPicker.show();
-
                     }, year, month, day);
 
                     startPicker.getDatePicker().setMinDate(System.currentTimeMillis());
                     startPicker.show();
+                } else {
+                    Toast.makeText(this, "Hourly booking doesn't need date selection", Toast.LENGTH_SHORT).show();
                 }
             });
-
 
             mallId = getIntent().getStringExtra("mallId");
             mallName = getIntent().getStringExtra("mallName");
@@ -74,22 +80,22 @@ import java.util.Calendar;
                     String no = edtno.getText().toString();
                     String date = edtdate.getText().toString();
                     String contact = edtcontact.getText().toString();
-
+                    String bookingType = (bookingTypeGroup.getCheckedRadioButtonId() == R.id.rbDaily) ? "Daily" : "Hourly";
                     String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     if (type.isEmpty()) {
-                        Toast.makeText(com.example.carparkingapp.BookingActivity.this, "Enter vehicle type", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BookingActivity.this, "Enter vehicle type", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if (no.isEmpty()) {
-                        Toast.makeText(com.example.carparkingapp.BookingActivity.this, "Enter vehicle no.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BookingActivity.this, "Enter vehicle no.", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    if (date.isEmpty()) {
-                        Toast.makeText(com.example.carparkingapp.BookingActivity.this, "Enter date", Toast.LENGTH_SHORT).show();
+                    if (bookingType.equals("Daily") && date.isEmpty()) {
+                        Toast.makeText(BookingActivity.this, "Enter date", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     if (contact.isEmpty()) {
-                        Toast.makeText(com.example.carparkingapp.BookingActivity.this, "Enter contact", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BookingActivity.this, "Enter contact", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -105,8 +111,9 @@ import java.util.Calendar;
                     bookings.mallName = mallName;
                     bookings.vehicleNumber = no;
                     bookings.vehicleType = type;
-                    bookings.date = date;
+                    bookings.date = bookingType.equals("Hourly") ? "Hourly Booking" : date;
                     bookings.ContactNo = contact;
+                    bookings.bookingType = bookingType;
                     FirebaseDatabase.getInstance().getReference("Bookings")
                             .child(mallId)
                             .push()
