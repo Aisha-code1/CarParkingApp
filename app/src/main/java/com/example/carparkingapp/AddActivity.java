@@ -91,8 +91,8 @@ public class AddActivity extends AppCompatActivity {
                     return;
                 }
                 if (pricestr.isEmpty()) {
-                    etPrice.setError("Enter Daily Price");
-                    etPrice.requestFocus();
+                    edtPrice.setError("Enter Daily Price");
+                    edtPrice.requestFocus();
                     return;
                 }
                 if (city.isEmpty()) {
@@ -113,10 +113,10 @@ public class AddActivity extends AppCompatActivity {
                 }
 
 
-                int price, Rs;
+                int price, rs;
                 try {
                     price = Integer.parseInt(priceStr);
-                    Rs = Integer.parseInt(pricestr);
+                    rs = Integer.parseInt(pricestr);
                 } catch (NumberFormatException e) {
                     etPrice.setError("Enter valid number");
                     etPrice.requestFocus();
@@ -124,7 +124,7 @@ public class AddActivity extends AppCompatActivity {
                     edtPrice.requestFocus();
                     return;
                 }
-                Manage manage = new Manage(name, price, Rs, city, timing, address);
+                Manage manage = new Manage(name, price, rs, city, timing, address);
 
                 if (isEdit) {
                     FirebaseDatabase.getInstance().getReference("Manage")
