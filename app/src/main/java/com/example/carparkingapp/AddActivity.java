@@ -15,19 +15,19 @@ import java.util.Calendar;
 
 public class AddActivity extends AppCompatActivity {
 
-    EditText etName, etPrice, edtPrice, etCity, etTiming, etAddress;
+    EditText etName, etHourlyPrice, etDailyPrice, etCity, etTiming, etAddress;
     Button save;
     boolean isEdit = false;
     String editId = null;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
+
         etName = findViewById(R.id.et_Name);
-        etPrice = findViewById(R.id.et_Price);
-        edtPrice = findViewById(R.id.edt_Price);
+        etHourlyPrice = findViewById(R.id.et_Price);
+        etDailyPrice = findViewById(R.id.edt_Price);
         etCity = findViewById(R.id.et_city);
         etTiming = findViewById(R.id.et_timing);
         etAddress = findViewById(R.id.et_address);
@@ -40,106 +40,99 @@ public class AddActivity extends AppCompatActivity {
 
             TimePickerDialog openingDialog = new TimePickerDialog(AddActivity.this,
                     (view, openingHour, openingMinute) -> {
-
                         String openingTime = formatTime12Hour(openingHour, openingMinute);
 
                         TimePickerDialog closingDialog = new TimePickerDialog(AddActivity.this,
                                 (view2, closingHour, closingMinute) -> {
                                     String closingTime = formatTime12Hour(closingHour, closingMinute);
-                                    String finalTiming =  ( openingTime + " - " + closingTime);
-                                    etTiming.setText(finalTiming);
+                                    etTiming.setText(openingTime + " - " + closingTime);
                                 },
                                 hour, minute, false);
 
                         closingDialog.setTitle("Select Closing Time");
                         closingDialog.show();
-
                     },
                     hour, minute, false);
 
             openingDialog.setTitle("Select Opening Time");
             openingDialog.show();
         });
+
         if (getIntent().getBooleanExtra("edit_mode", false)) {
             isEdit = true;
             editId = getIntent().getStringExtra("id");
             etName.setText(getIntent().getStringExtra("name"));
-            etPrice.setText(String.valueOf(getIntent().getStringExtra("price")));
-            edtPrice.setText(String.valueOf(getIntent().getStringExtra("rs")));
+            etHourlyPrice.setText(String.valueOf(getIntent().getIntExtra("hourlyPrice", 0)));
+            etDailyPrice.setText(String.valueOf(getIntent().getIntExtra("dailyPrice", 0)));
             etCity.setText(getIntent().getStringExtra("city"));
             etTiming.setText(getIntent().getStringExtra("timing"));
             etAddress.setText(getIntent().getStringExtra("address"));
             save.setText("Update");
         }
 
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = etName.getText().toString().trim();
-                String priceStr = etPrice.getText().toString().trim();
-                String pricestr = edtPrice.getText().toString().trim();
-                String city = etCity.getText().toString().trim();
-                String timing = etTiming.getText().toString().trim();
-                String address = etAddress.getText().toString().trim();
-                if (name.isEmpty()) {
-                    etName.setError("Enter mall name");
-                    etName.requestFocus();
-                    return;
-                }
-                if (priceStr.isEmpty()) {
-                    etPrice.setError("Enter Hourly Price");
-                    etPrice.requestFocus();
-                    return;
-                }
-                if (pricestr.isEmpty()) {
-                    edtPrice.setError("Enter Daily Price");
-                    edtPrice.requestFocus();
-                    return;
-                }
-                if (city.isEmpty()) {
-                    etCity.setError("Enter city");
-                    etCity.requestFocus();
-                    return;
-                }
+        save.setOnClickListener(v -> {
+            String name = etName.getText().toString().trim();
+            String hourlyPriceStr = etHourlyPrice.getText().toString().trim();
+            String dailyPriceStr = etDailyPrice.getText().toString().trim();
+            String city = etCity.getText().toString().trim();
+            String timing = etTiming.getText().toString().trim();
+            String address = etAddress.getText().toString().trim();
 
-                if (timing.isEmpty()) {
-                    etTiming.setError("Please select opening and closing time");
-                    etTiming.requestFocus();
-                    return;
-                }
-                if (address.isEmpty()) {
-                    etAddress.setError("Enter address");
-                    etAddress.requestFocus();
-                    return;
-                }
-
-
-                int price, rs;
-                try {
-                    price = Integer.parseInt(priceStr);
-                    rs = Integer.parseInt(pricestr);
-                } catch (NumberFormatException e) {
-                    etPrice.setError("Enter valid number");
-                    etPrice.requestFocus();
-                    edtPrice.setError("Enter valid number");
-                    edtPrice.requestFocus();
-                    return;
-                }
-                Manage manage = new Manage(name, price, rs, city, timing, address);
-
-                if (isEdit) {
-                    FirebaseDatabase.getInstance().getReference("Manage")
-                            .child(editId)
-                            .setValue(manage);
-                    Toast.makeText(AddActivity.this, "Updated successfully", Toast.LENGTH_SHORT).show();
-                } else {
-                    FirebaseDatabase.getInstance().getReference("Manage")
-                            .push()
-                            .setValue(manage);
-                    Toast.makeText(AddActivity.this, "Added successfully", Toast.LENGTH_SHORT).show();
-                }
-                finish();
+            if (name.isEmpty()) {
+                etName.setError("Enter mall name");
+                etName.requestFocus();
+                return;
             }
+            if (hourlyPriceStr.isEmpty()) {
+                etHourlyPrice.setError("Enter Hourly Price");
+                etHourlyPrice.requestFocus();
+                return;
+            }
+            if (dailyPriceStr.isEmpty()) {
+                etDailyPrice.setError("Enter Daily Price");
+                etDailyPrice.requestFocus();
+                return;
+            }
+            if (city.isEmpty()) {
+                etCity.setError("Enter city");
+                etCity.requestFocus();
+                return;
+            }
+            if (timing.isEmpty()) {
+                etTiming.setError("Please select opening and closing time");
+                etTiming.requestFocus();
+                return;
+            }
+            if (address.isEmpty()) {
+                etAddress.setError("Enter address");
+                etAddress.requestFocus();
+                return;
+            }
+
+            int hourlyPrice, dailyPrice;
+            try {
+                hourlyPrice = Integer.parseInt(hourlyPriceStr);
+                dailyPrice = Integer.parseInt(dailyPriceStr);
+            } catch (NumberFormatException e) {
+                etHourlyPrice.setError("Enter valid number");
+                etDailyPrice.setError("Enter valid number");
+                return;
+            }
+
+            Manage manage = new Manage(name, hourlyPrice, dailyPrice, city, timing, address);
+
+            if (isEdit) {
+                FirebaseDatabase.getInstance().getReference("Manage")
+                        .child(editId)
+                        .setValue(manage);
+                Toast.makeText(AddActivity.this, "Updated successfully", Toast.LENGTH_SHORT).show();
+            } else {
+                FirebaseDatabase.getInstance().getReference("Manage")
+                        .push()
+                        .setValue(manage);
+                Toast.makeText(AddActivity.this, "Added successfully", Toast.LENGTH_SHORT).show();
+            }
+            finish();
         });
     }
 

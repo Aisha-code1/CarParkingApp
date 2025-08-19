@@ -1,42 +1,54 @@
 package com.example.carparkingapp;
 
 public class Manage {
-    public String name, id;
-    public String city, timing,address;
+    public String id;
+    public String name, city, timing, address;
+    public int hourlyPrice, dailyPrice;
 
-    public  int price, rs;
-       public Manage (String name, int price, int rs, String city, String timing,String address) {
+    public Manage() {
+
+    }
+
+    public Manage(String name, int hourlyPrice, int dailyPrice, String city, String timing, String address) {
         this.name = name;
-        this.price = price;
+        this.hourlyPrice = hourlyPrice;
+        this.dailyPrice = dailyPrice;
         this.city = city;
         this.timing = timing;
         this.address = address;
-
     }
 
-    public String getName() {
 
+    public String getId() {
+        return id;
+    }
+    public String getName() {
         return name;
     }
-    public int getPrice() {
-
-        return price;
+    public int getHourlyPrice() {
+        return hourlyPrice;
     }
-    public int getRs() {
-
-        return rs;
+    public int getDailyPrice() {
+        return dailyPrice;
     }
     public String getCity() {
-
         return city;
     }
     public String getTiming() {
-
         return timing;
     }
-    public String getAddress(){
-
-        return  address;
+    public String getAddress() {
+        return address;
     }
 
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    public void setHourlyPrice(int hourlyPrice) {
+        this.hourlyPrice = hourlyPrice;
+    }
+    public void setDailyPrice(int dailyPrice) {
+        this.dailyPrice = dailyPrice;
+    }
 }

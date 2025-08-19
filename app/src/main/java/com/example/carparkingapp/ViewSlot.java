@@ -3,12 +3,9 @@ package com.example.carparkingapp;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,35 +17,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewSlot extends AppCompatActivity {
+
     RecyclerView rvView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_view_slot);
+
         rvView = findViewById(R.id.rv_viewslot);
-                   FirebaseDatabase.getInstance().getReference("Manage")
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+        rvView.setLayoutManager(new LinearLayoutManager(this));
 
-                            List<Manage> manageList = new ArrayList<>();
-                            for (DataSnapshot manageSnapshot : snapshot.getChildren()) {
-                                Manage manage = manageSnapshot.getValue(Manage.class);
-                                if(manage != null) {
-                                    manage.id = manageSnapshot.getKey();
-                                    manageList.add(manage);
-                                }
+        loadManageData();
+    }
+
+    private void loadManageData() {
+        FirebaseDatabase.getInstance().getReference("Manage")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        List<Manage> manageList = new ArrayList<>();
+                        for (DataSnapshot manageSnapshot : snapshot.getChildren()) {
+                            Manage manage = manageSnapshot.getValue(Manage.class);
+                            if (manage != null) {
+                                manage.setId(manageSnapshot.getKey());
+                                manageList.add(manage);
                             }
-                            ManageAdapter adapter = new ManageAdapter(manageList, ViewSlot.this, false);
-                            rvView.setAdapter(adapter);
                         }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(ViewSlot.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
 
-                    });
+                        ManageAdapter adapter = new ManageAdapter(manageList, ViewSlot.this, false, null);
+                        rvView.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(ViewSlot.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
+
