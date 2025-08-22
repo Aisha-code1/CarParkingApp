@@ -34,7 +34,6 @@ public class BookingActivity extends AppCompatActivity {
         EditText edtdate = findViewById(R.id.date);
         EditText edtcontact = findViewById(R.id.contact);
         booking = findViewById(R.id.book);
-        pay = findViewById(R.id.pay);
         bookingTypeGroup = findViewById(R.id.bookingTypeGroup);
         dateLabel = findViewById(R.id.datelabel);
 
