@@ -11,11 +11,12 @@ public class ViewBooking {
     public String date;
     public String ContactNo;
     public String bookingType;
+    public String status;
 
     public ViewBooking() { }
 
     public ViewBooking(String id, String userId, String vehicleType, String vehicleNumber,
-                       String date, String mallName, String ContactNo, String bookingType) {
+                       String date, String mallName, String ContactNo, String bookingType , String status) {
         this.id = id;
         this.userId = userId;
         this.vehicleType = vehicleType;
@@ -24,6 +25,7 @@ public class ViewBooking {
         this.mallName = mallName;
         this.ContactNo = ContactNo;
         this.bookingType = bookingType;
+        this.status = status;
     }
 }
 

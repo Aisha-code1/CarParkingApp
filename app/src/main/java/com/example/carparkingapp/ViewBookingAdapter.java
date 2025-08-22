@@ -1,11 +1,15 @@
 package com.example.carparkingapp;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
@@ -36,6 +40,26 @@ public class ViewBookingAdapter extends RecyclerView.Adapter<ViewBookingHolder> 
         holder.tvDate.setText("Date: " + booking.date);
         holder.tvContactNo.setText("Contact No: " + booking.ContactNo);
         holder.tvBookingType.setText("Booking Type: " + booking.bookingType);
+        holder.tvStatus.setText("Status: " + booking.status);
+
+        if ("Pending".equalsIgnoreCase(booking.status)) {
+            holder.btnConfirm.setVisibility(View.VISIBLE);
+        } else {
+            holder.btnConfirm.setVisibility(View.GONE);
+        }
+        holder.btnConfirm.setOnClickListener(v -> {
+            FirebaseDatabase.getInstance().getReference("Bookings")
+                    .child(booking.mallId)
+                    .child(booking.id)
+                    .child("status")
+                    .setValue("Confirmed")
+                    .addOnSuccessListener(unused -> {
+                        Toast.makeText(context, "Booking Confirmed", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(context, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    });
+        });
     }
 
     @Override
