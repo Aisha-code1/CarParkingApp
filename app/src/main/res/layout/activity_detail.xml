@@ -29,13 +29,24 @@
         />
         <TextView
             android:padding="10dp"
-            android:id="@+id/tv_detail_price"
+            android:id="@+id/tv_detail_hourly"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Price"
+            android:layout_height="wrap_content"
+            android:text="Hourly: Rs 0"
+            android:textSize="22sp"
+            android:layout_marginBottom="10dp"
+
+            />
+        <TextView
+            android:padding="10dp"
+            android:id="@+id/tv_detail_daily"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Daily: Rs 0"
             android:textSize="22sp"
             android:layout_marginBottom="10dp"
             />
+
         <TextView
             android:padding="10dp"
             android:id="@+id/tv_detail_city"

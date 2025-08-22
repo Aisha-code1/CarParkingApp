@@ -9,9 +9,13 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Calendar;
 
 public class BookingActivity extends AppCompatActivity {
@@ -96,21 +100,23 @@ public class BookingActivity extends AppCompatActivity {
                     return;
                 }
 
-                Booking bookings = new Booking();
-                bookings.userId = userId;
-                bookings.mallId = mallId;
-                bookings.mallName = mallName;
-                bookings.vehicleNumber = no;
-                bookings.vehicleType = type;
-                bookings.date = bookingType.equals("Hourly") ? "Hourly Booking" : date;
-                bookings.ContactNo = contact;
-                bookings.bookingType = bookingType;
-                bookings.status = "Pending";
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Bookings").child(mallId);
+                String bookingId = ref.push().getKey();
 
-                FirebaseDatabase.getInstance().getReference("Bookings")
-                        .child(mallId)
-                        .push()
-                        .setValue(bookings);
+                Booking bookings = new Booking(
+                        bookingId,
+                        userId,
+                        type,
+                        no,
+                        bookingType.equals("Hourly") ? "Hourly Booking" : date,
+                        mallName,
+                        contact,
+                        bookingType,
+                        "Pending"
+                );
+                bookings.mallId = mallId;
+
+                ref.child(bookingId).setValue(bookings);
 
                 Toast.makeText(BookingActivity.this, "Booking successful", Toast.LENGTH_SHORT).show();
                 finish();

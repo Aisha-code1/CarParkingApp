@@ -1,6 +1,7 @@
 package com.example.carparkingapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,13 +45,14 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
         Manage manage = manageList.get(position);
 
         holder.tvName.setText(manage.getName());
-        holder.tvCity.setText(manage.getCity());
-        holder.tvTiming.setText(manage.getTiming());
-        holder.tvAddress.setText(manage.getAddress());
+        holder.tvCity.setText("City: " + manage.getCity());
+        holder.tvTiming.setText("Timing: " + manage.getTiming());
+        holder.tvAddress.setText("Address: " + manage.getAddress());
         holder.hourly_price.setText("Hourly Price: " + manage.getHourlyPrice() + " Rs");
         holder.daily_price.setText("Daily Price: " + manage.getDailyPrice() + " Rs");
 
         if (isAdmin) {
+
             holder.ivEdit.setVisibility(View.VISIBLE);
             holder.ivDelete.setVisibility(View.VISIBLE);
 
@@ -61,9 +63,23 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
             holder.ivDelete.setOnClickListener(v -> {
                 if (listener != null) listener.onDelete(manage);
             });
+
         } else {
+
             holder.ivEdit.setVisibility(View.GONE);
             holder.ivDelete.setVisibility(View.GONE);
+
+            holder.itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("id", manage.getId());
+                intent.putExtra("mallName", manage.getName());
+                intent.putExtra("city", manage.getCity());
+                intent.putExtra("timing", manage.getTiming());
+                intent.putExtra("address", manage.getAddress());
+                intent.putExtra("hourlyPrice", manage.getHourlyPrice());
+                intent.putExtra("dailyPrice", manage.getDailyPrice());
+                context.startActivity(intent);
+            });
         }
     }
 

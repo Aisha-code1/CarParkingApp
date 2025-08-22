@@ -1,13 +1,13 @@
 package com.example.carparkingapp;
 
 public class Manage {
-    public String id;
-    public String name, city, timing, address;
-    public int hourlyPrice, dailyPrice;
+    private String id;
+    private String name, city, timing, address;
+    private int hourlyPrice, dailyPrice;
 
-    public Manage() {
 
-    }
+    public Manage() { }
+
 
     public Manage(String name, int hourlyPrice, int dailyPrice, String city, String timing, String address) {
         this.name = name;
@@ -45,10 +45,22 @@ public class Manage {
     public void setId(String id) {
         this.id = id;
     }
+    public void setName(String name) {
+        this.name = name;
+    }
     public void setHourlyPrice(int hourlyPrice) {
         this.hourlyPrice = hourlyPrice;
     }
     public void setDailyPrice(int dailyPrice) {
         this.dailyPrice = dailyPrice;
+    }
+    public void setCity(String city) {
+        this.city = city;
+    }
+    public void setTiming(String timing) {
+        this.timing = timing;
+    }
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

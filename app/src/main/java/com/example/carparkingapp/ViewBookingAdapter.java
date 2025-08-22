@@ -42,18 +42,27 @@ public class ViewBookingAdapter extends RecyclerView.Adapter<ViewBookingHolder> 
         holder.tvBookingType.setText("Booking Type: " + booking.bookingType);
         holder.tvStatus.setText("Status: " + booking.status);
 
+
         if ("Pending".equalsIgnoreCase(booking.status)) {
             holder.btnConfirm.setVisibility(View.VISIBLE);
         } else {
             holder.btnConfirm.setVisibility(View.GONE);
         }
+
         holder.btnConfirm.setOnClickListener(v -> {
+            if (booking.id == null || booking.mallId == null) {
+                Toast.makeText(context, "Booking ID or Mall ID missing", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             FirebaseDatabase.getInstance().getReference("Bookings")
                     .child(booking.mallId)
                     .child(booking.id)
                     .child("status")
                     .setValue("Confirmed")
                     .addOnSuccessListener(unused -> {
+                        booking.status = "Confirmed";
+                        notifyItemChanged(holder.getAdapterPosition());
                         Toast.makeText(context, "Booking Confirmed", Toast.LENGTH_SHORT).show();
                     })
                     .addOnFailureListener(e -> {
