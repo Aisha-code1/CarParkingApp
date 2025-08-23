@@ -70,7 +70,6 @@
                 android:drawablePadding="15dp"
                 android:drawableStart="@drawable/baseline_lock_24"
                 />
-
             <TextView
                 android:id="@+id/reset_password"
                 android:layout_width="wrap_content"

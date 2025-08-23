@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         TextView tvregister = findViewById(R.id.tv_register);
         EditText edtemail = findViewById(R.id.edt_email);
         EditText edtpassword = findViewById(R.id.edt_password);
+        TextView resetPassword = findViewById(R.id.reset_password);
         tvregister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,6 +42,33 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        resetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = edtemail.getText().toString().trim();
+                if (email.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Please enter your email first", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(LoginActivity.this, "Invalid email format", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                FirebaseAuth.getInstance().sendPasswordResetEmail(email)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(LoginActivity.this, "Reset link sent to your email", Toast.LENGTH_LONG).show();
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+            }
+        });
+
         Button login = findViewById(R.id.btn_login);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
