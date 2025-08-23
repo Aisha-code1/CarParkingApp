@@ -46,7 +46,7 @@ public class ViewSlot extends AppCompatActivity {
                         }
 
 
-                        ManageAdapter adapter = new ManageAdapter(manageList, ViewSlot.this, false, null);
+                        ManageAdapter adapter = new ManageAdapter(manageList, ViewSlot.this, false, true, null);
                         rvView.setAdapter(adapter);
                     }
 

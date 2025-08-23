@@ -59,7 +59,7 @@ public class ManageSlotActivity extends AppCompatActivity {
                             }
                         }
 
-                        ManageAdapter adapter = new ManageAdapter(manageList, ManageSlotActivity.this, true,
+                        ManageAdapter adapter = new ManageAdapter(manageList, ManageSlotActivity.this, true, false,
                                 new ManageAdapter.OnItemClickListener() {
                                     @Override
                                     public void onEdit(Manage manage) {

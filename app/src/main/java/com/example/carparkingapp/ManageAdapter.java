@@ -18,6 +18,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
     private List<Manage> manageList;
     private Context context;
     private boolean isAdmin;
+    private boolean isCompact;
 
     public interface OnItemClickListener {
         void onEdit(Manage manage);
@@ -26,10 +27,11 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
 
     private OnItemClickListener listener;
 
-    public ManageAdapter(List<Manage> manageList, Context context, boolean isAdmin, OnItemClickListener listener) {
+    public ManageAdapter(List<Manage> manageList, Context context, boolean isAdmin, boolean isCompact, OnItemClickListener listener) {
         this.manageList = manageList;
         this.context = context;
         this.isAdmin = isAdmin;
+        this.isCompact = isCompact;
         this.listener = listener;
     }
 
@@ -43,14 +45,23 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
     @Override
     public void onBindViewHolder(@NonNull ManageViewHolder holder, int position) {
         Manage manage = manageList.get(position);
-
         holder.tvName.setText(manage.getName());
-        holder.tvCity.setText("City: " + manage.getCity());
-        holder.tvTiming.setText("Timing: " + manage.getTiming());
-        holder.tvAddress.setText("Address: " + manage.getAddress());
-        holder.hourly_price.setText("Hourly Price: " + manage.getHourlyPrice() + " Rs");
-        holder.daily_price.setText("Daily Price: " + manage.getDailyPrice() + " Rs");
 
+        if (isCompact) {
+
+            holder.tvCity.setText("City: " + manage.getCity());
+            holder.hourly_price.setText("Hourly Price: " + manage.getHourlyPrice() + " Rs");
+            holder.tvTiming.setVisibility(View.GONE);
+            holder.tvAddress.setVisibility(View.GONE);
+            holder.daily_price.setVisibility(View.GONE);
+
+        } else {
+            holder.tvCity.setText("City: " + manage.getCity());
+            holder.tvTiming.setText("Timing: " + manage.getTiming());
+            holder.tvAddress.setText("Address: " + manage.getAddress());
+            holder.hourly_price.setText("Hourly Price: " + manage.getHourlyPrice() + " Rs");
+            holder.daily_price.setText("Daily Price: " + manage.getDailyPrice() + " Rs");
+        }
         if (isAdmin) {
 
             holder.ivEdit.setVisibility(View.VISIBLE);
