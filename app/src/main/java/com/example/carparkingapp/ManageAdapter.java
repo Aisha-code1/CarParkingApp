@@ -51,6 +51,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
 
             holder.tvCity.setText("City: " + manage.getCity());
             holder.hourly_price.setText("Hourly Price: " + manage.getHourlyPrice() + " Rs");
+            
             holder.tvTiming.setVisibility(View.GONE);
             holder.tvAddress.setVisibility(View.GONE);
             holder.daily_price.setVisibility(View.GONE);
