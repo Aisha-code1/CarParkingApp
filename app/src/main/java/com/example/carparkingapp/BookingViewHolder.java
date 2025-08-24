@@ -1,12 +1,14 @@
 package com.example.carparkingapp;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class BookingViewHolder extends RecyclerView.ViewHolder {
     TextView tvMallName, tvVehicleType, tvVehicleNumber, tvdate, tvContactNo, tvBookingType, tvStatus;
+    Button btnCancel;
 
     public BookingViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -17,6 +19,7 @@ public class BookingViewHolder extends RecyclerView.ViewHolder {
         tvContactNo = itemView.findViewById(R.id.contact);
         tvBookingType = itemView.findViewById(R.id.booking_type);
         tvStatus = itemView.findViewById(R.id.status);
+        btnCancel = itemView.findViewById(R.id.btn_cancel);
     }
 }
 

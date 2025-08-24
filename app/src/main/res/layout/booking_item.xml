@@ -1,58 +1,72 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:layout_margin="8dp"
-    android:elevation="4dp">
-
-    <TextView
-        android:id="@+id/mall_name"
-        android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="15dp"
+    app:cardUseCompatPadding="true">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Mall: " />
+        android:orientation="vertical"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/mall_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mall: "
+            android:textStyle="bold"
+            android:padding="10dp"/>
 
-    <TextView
-        android:id="@+id/vehicle_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vehicle Type:" />
+        <TextView
+            android:id="@+id/vehicle_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vehicle Type:"
+            android:padding="10dp"/>
 
-    <TextView
-        android:id="@+id/vehicle_no"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vehicle No:"/>
+        <TextView
+            android:id="@+id/vehicle_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vehicle No:"
+            android:padding="10dp"/>
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date:" />
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date:"
+            android:padding="10dp"/>
 
-    <TextView
-        android:id="@+id/contact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Contact No:" />
+        <TextView
+            android:id="@+id/contact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Contact No:"
+            android:padding="10dp"/>
 
-    <TextView
-        android:id="@+id/booking_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Booking Type:" />
+        <TextView
+            android:id="@+id/booking_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Booking Type:"
+            android:padding="10dp"/>
 
-    <TextView
-        android:id="@+id/booking_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Status: Pending"/>
+        <TextView
+            android:id="@+id/booking_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Status: Pending"
+            android:textColor="#0F206F"
+            android:padding="10dp"/>
 
-    <Button
-        android:id="@+id/btn_confirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirm"
-        android:visibility="gone"/>
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_confirm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            android:visibility="gone"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
