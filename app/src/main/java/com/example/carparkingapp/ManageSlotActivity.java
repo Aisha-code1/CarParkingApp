@@ -83,7 +83,7 @@ public class ManageSlotActivity extends AppCompatActivity {
                                                 .addOnCompleteListener(task -> {
                                                     if (task.isSuccessful()) {
                                                         Toast.makeText(ManageSlotActivity.this, "Deleted successfully", Toast.LENGTH_SHORT).show();
-                                                        loadManageData(); // Refresh
+                                                        loadManageData();
                                                     } else {
                                                         Toast.makeText(ManageSlotActivity.this, "Failed to delete", Toast.LENGTH_SHORT).show();
                                                     }
