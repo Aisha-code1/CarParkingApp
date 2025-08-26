@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 if (password.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "enter email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "enter password", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
