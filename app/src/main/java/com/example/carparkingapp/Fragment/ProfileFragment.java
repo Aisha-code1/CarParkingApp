@@ -46,7 +46,9 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class ProfileFragment extends Fragment {
@@ -145,12 +147,14 @@ public class ProfileFragment extends Fragment {
                                             if (bitmap != null) imgProfile.setImageBitmap(bitmap);
                                         }
                                     }
+
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {}
                                 });
 
                         setupUIByRole();
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {}
                 });
@@ -177,7 +181,7 @@ public class ProfileFragment extends Fragment {
 
     private void setupUIByRole() {
         if ("admin".equals(role)) {
-            // Admin sees only name, no edit
+            // Admin sees only name
             edtName.setVisibility(View.GONE);
             edtEmail.setVisibility(View.GONE);
             edtVehicleType.setVisibility(View.GONE);
@@ -194,7 +198,16 @@ public class ProfileFragment extends Fragment {
             tvContact.setVisibility(View.GONE);
 
         } else {
-            // User sees full editable profile
+            // User sees full profile
+            edtName.setVisibility(View.GONE);
+            edtEmail.setVisibility(View.GONE);
+            edtVehicleType.setVisibility(View.GONE);
+            edtVehicleNumber.setVisibility(View.GONE);
+            edtContact.setVisibility(View.GONE);
+            btnSave.setVisibility(View.GONE);
+            imgCameraIcon.setVisibility(View.GONE);
+
+            tvName.setVisibility(View.VISIBLE);
             tvEmail.setVisibility(View.VISIBLE);
             tvVehicleType.setVisibility(View.VISIBLE);
             tvVehicleNumber.setVisibility(View.VISIBLE);
@@ -202,8 +215,8 @@ public class ProfileFragment extends Fragment {
 
             imgEditIcon.setVisibility(View.VISIBLE);
             imgEditIcon.setOnClickListener(v -> enableEditing());
-            imgCameraIcon.setOnClickListener(v -> showImageSourceDialog());
             btnSave.setOnClickListener(v -> saveProfile());
+            imgCameraIcon.setOnClickListener(v -> showImageSourceDialog());
         }
     }
 
@@ -237,28 +250,41 @@ public class ProfileFragment extends Fragment {
             return;
         }
 
-        FirebaseDatabase.getInstance().getReference("Users")
-                .child(user.getUid())
-                .child("name").setValue(updatedName);
+        // Update all fields in single call
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("name", updatedName);
+        updates.put("email", updatedEmail);
+        updates.put("vehicleType", updatedVehicleType);
+        updates.put("vehicleNumber", updatedVehicleNumber);
+        updates.put("contact", updatedContact);
 
         FirebaseDatabase.getInstance().getReference("Users")
                 .child(user.getUid())
-                .child("email").setValue(updatedEmail);
-
-        FirebaseDatabase.getInstance().getReference("Users")
-                .child(user.getUid())
-                .child("vehicleType").setValue(updatedVehicleType);
-
-        FirebaseDatabase.getInstance().getReference("Users")
-                .child(user.getUid())
-                .child("vehicleNumber").setValue(updatedVehicleNumber);
-
-        FirebaseDatabase.getInstance().getReference("Users")
-                .child(user.getUid())
-                .child("contact").setValue(updatedContact)
+                .updateChildren(updates)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(getContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                    setupUIByRole(); // refresh UI
+                    // update TextViews with new data
+                    tvName.setText(updatedName);
+                    tvEmail.setText(updatedEmail);
+                    tvVehicleType.setText(updatedVehicleType);
+                    tvVehicleNumber.setText(updatedVehicleNumber);
+                    tvContact.setText(updatedContact);
+
+                    // hide edit fields, show TextViews
+                    edtName.setVisibility(View.GONE);
+                    edtEmail.setVisibility(View.GONE);
+                    edtVehicleType.setVisibility(View.GONE);
+                    edtVehicleNumber.setVisibility(View.GONE);
+                    edtContact.setVisibility(View.GONE);
+                    btnSave.setVisibility(View.GONE);
+                    imgCameraIcon.setVisibility(View.GONE);
+                    imgEditIcon.setVisibility(View.VISIBLE);
+
+                    tvName.setVisibility(View.VISIBLE);
+                    tvEmail.setVisibility(View.VISIBLE);
+                    tvVehicleType.setVisibility(View.VISIBLE);
+                    tvVehicleNumber.setVisibility(View.VISIBLE);
+                    tvContact.setVisibility(View.VISIBLE);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(getContext(), "Failed to update profile", Toast.LENGTH_SHORT).show();
