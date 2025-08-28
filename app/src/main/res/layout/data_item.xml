@@ -50,7 +50,6 @@
                 android:textSize="17sp"
                 android:textStyle="bold"
                 android:text="City"
-
                 android:padding="10dp"/>
             <TextView
                 android:id="@+id/tv_timing"
@@ -67,7 +66,6 @@
                 android:textSize="17sp"
                 android:textStyle="bold"
                 android:text="Address"
-
                 android:padding="10dp"/>
             <TextView
                 android:id="@+id/tv_capacity"
