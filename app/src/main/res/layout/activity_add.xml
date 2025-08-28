@@ -127,6 +127,24 @@
             android:padding="12dp"
             android:layout_marginBottom="24dp"
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Capacity"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+        <EditText
+            android:id="@+id/et_capacity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint=" Capacity"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:background="@drawable/edittext_background"
+            android:padding="12dp"
+            android:layout_marginBottom="24dp"
+            />
 
         <Button
             android:id="@+id/btn_save"

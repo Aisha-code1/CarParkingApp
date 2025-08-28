@@ -48,13 +48,13 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
         holder.tvName.setText(manage.getName());
 
         if (isCompact) {
-
             holder.tvCity.setText("City: " + manage.getCity());
             holder.hourly_price.setText("Hourly Price: " + manage.getHourlyPrice() + " Rs");
-            
+
             holder.tvTiming.setVisibility(View.GONE);
             holder.tvAddress.setVisibility(View.GONE);
             holder.daily_price.setVisibility(View.GONE);
+            holder.tvCapacity.setVisibility(View.GONE);
 
         } else {
             holder.tvCity.setText("City: " + manage.getCity());
@@ -62,9 +62,13 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
             holder.tvAddress.setText("Address: " + manage.getAddress());
             holder.hourly_price.setText("Hourly Price: " + manage.getHourlyPrice() + " Rs");
             holder.daily_price.setText("Daily Price: " + manage.getDailyPrice() + " Rs");
-        }
-        if (isAdmin) {
 
+            // Show capacity
+            holder.tvCapacity.setVisibility(View.VISIBLE);
+            holder.tvCapacity.setText("Capacity: " + manage.getCapacity());
+        }
+
+        if (isAdmin) {
             holder.ivEdit.setVisibility(View.VISIBLE);
             holder.ivDelete.setVisibility(View.VISIBLE);
 
@@ -77,7 +81,6 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
             });
 
         } else {
-
             holder.ivEdit.setVisibility(View.GONE);
             holder.ivDelete.setVisibility(View.GONE);
 
@@ -90,6 +93,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
                 intent.putExtra("address", manage.getAddress());
                 intent.putExtra("hourlyPrice", manage.getHourlyPrice());
                 intent.putExtra("dailyPrice", manage.getDailyPrice());
+                intent.putExtra("capacity", manage.getCapacity());
                 context.startActivity(intent);
             });
         }
@@ -101,7 +105,7 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
     }
 
     public static class ManageViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, hourly_price, daily_price, tvCity, tvTiming, tvAddress;
+        TextView tvName, hourly_price, daily_price, tvCity, tvTiming, tvAddress, tvCapacity;
         ImageView ivDelete, ivEdit;
 
         public ManageViewHolder(@NonNull View itemView) {
@@ -112,10 +116,12 @@ public class ManageAdapter extends RecyclerView.Adapter<ManageAdapter.ManageView
             tvCity = itemView.findViewById(R.id.tv_city);
             tvTiming = itemView.findViewById(R.id.tv_timing);
             tvAddress = itemView.findViewById(R.id.tv_address);
+            tvCapacity = itemView.findViewById(R.id.tv_capacity); // Added for capacity
             ivDelete = itemView.findViewById(R.id.iv_delete);
             ivEdit = itemView.findViewById(R.id.iv_edit);
         }
     }
 }
+
 
 
