@@ -27,7 +27,7 @@ import java.util.HashMap;
 public class BookingActivity extends AppCompatActivity {
     String mallId, mallName;
     RadioGroup bookingTypeGroup;
-    Button booking, pay;
+    Button booking;
     TextView dateLabel;
     EditText edttype, edtno, edtdate, edtcontact;
 
@@ -55,8 +55,8 @@ public class BookingActivity extends AppCompatActivity {
                             if (snapshot.hasChild("vehicleType")) {
                                 edttype.setText(snapshot.child("vehicleType").getValue(String.class));
                             }
-                            if (snapshot.hasChild("vehicleNo")) {
-                                edtno.setText(snapshot.child("vehicleNo").getValue(String.class));
+                            if (snapshot.hasChild("vehicleNumber")) {
+                                edtno.setText(snapshot.child("vehicleNumber").getValue(String.class));
                             }
                             if (snapshot.hasChild("contact")) {
                                 edtcontact.setText(snapshot.child("contact").getValue(String.class));
