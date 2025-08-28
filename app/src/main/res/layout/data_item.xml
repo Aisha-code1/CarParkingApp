@@ -69,6 +69,15 @@
                 android:text="Address"
 
                 android:padding="10dp"/>
+            <TextView
+                android:id="@+id/tv_capacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textStyle="bold"
+                android:text="Capacity"
+                android:padding="10dp"/>
+
 
         </LinearLayout>
         <ImageView

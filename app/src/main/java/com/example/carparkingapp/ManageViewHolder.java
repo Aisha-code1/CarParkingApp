@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ManageViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView tvName, hourly_price, daily_price, tvCity, tvTiming, tvAddress;
+    public TextView tvName, hourly_price, daily_price, tvCity, tvTiming, tvAddress, tvCapacity; // Capacity added
     public ImageView ivDelete, ivEdit;
 
     public ManageViewHolder(@NonNull View itemView) {
@@ -21,6 +21,7 @@ public class ManageViewHolder extends RecyclerView.ViewHolder {
         tvCity = itemView.findViewById(R.id.tv_city);
         tvTiming = itemView.findViewById(R.id.tv_timing);
         tvAddress = itemView.findViewById(R.id.tv_address);
+        tvCapacity = itemView.findViewById(R.id.tv_capacity);
         ivDelete = itemView.findViewById(R.id.iv_delete);
         ivEdit = itemView.findViewById(R.id.iv_edit);
     }

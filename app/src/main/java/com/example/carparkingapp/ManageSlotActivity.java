@@ -35,7 +35,7 @@ public class ManageSlotActivity extends AppCompatActivity {
 
         add.setOnClickListener(v -> {
             Intent intent = new Intent(ManageSlotActivity.this, AddActivity.class);
-            startActivity(intent);
+            startActivity(intent); // New mall ke liye
         });
     }
 
@@ -72,6 +72,7 @@ public class ManageSlotActivity extends AppCompatActivity {
                                         intent.putExtra("city", manage.getCity());
                                         intent.putExtra("timing", manage.getTiming());
                                         intent.putExtra("address", manage.getAddress());
+                                        intent.putExtra("capacity", manage.getCapacity()); // Capacity added
                                         startActivity(intent);
                                     }
 

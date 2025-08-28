@@ -15,7 +15,7 @@ import java.util.Calendar;
 
 public class AddActivity extends AppCompatActivity {
 
-    EditText etName, etHourlyPrice, etDailyPrice, etCity, etTiming, etAddress;
+    EditText etName, etHourlyPrice, etDailyPrice, etCity, etTiming, etAddress, etCapacity; // Capacity added
     Button save;
     boolean isEdit = false;
     String editId = null;
@@ -34,6 +34,7 @@ public class AddActivity extends AppCompatActivity {
         etCity = findViewById(R.id.et_city);
         etTiming = findViewById(R.id.et_timing);
         etAddress = findViewById(R.id.et_address);
+        etCapacity = findViewById(R.id.et_capacity); // Capacity EditText
         save = findViewById(R.id.btn_save);
 
         etTiming.setOnClickListener(v -> {
@@ -87,6 +88,7 @@ public class AddActivity extends AppCompatActivity {
             etCity.setText(getIntent().getStringExtra("city"));
             etTiming.setText(getIntent().getStringExtra("timing"));
             etAddress.setText(getIntent().getStringExtra("address"));
+            etCapacity.setText(String.valueOf(getIntent().getIntExtra("capacity", 0))); // Capacity pre-fill
             save.setText("Update");
         }
 
@@ -97,6 +99,7 @@ public class AddActivity extends AppCompatActivity {
             String city = etCity.getText().toString().trim();
             String timing = etTiming.getText().toString().trim();
             String address = etAddress.getText().toString().trim();
+            String capacityStr = etCapacity.getText().toString().trim(); // Capacity input
 
             // Name Validation
             if (name.isEmpty()) {
@@ -152,6 +155,7 @@ public class AddActivity extends AppCompatActivity {
                 return;
             }
 
+            // Price parsing
             int hourlyPrice, dailyPrice;
             try {
                 hourlyPrice = Integer.parseInt(hourlyPriceStr);
@@ -179,7 +183,28 @@ public class AddActivity extends AppCompatActivity {
                 return;
             }
 
-            Manage manage = new Manage(name, hourlyPrice, dailyPrice, city, timing, address);
+            // Capacity parsing and validation
+            int capacity = 0;
+            if (capacityStr.isEmpty()) {
+                etCapacity.setError("Enter capacity");
+                etCapacity.requestFocus();
+                return;
+            }
+            try {
+                capacity = Integer.parseInt(capacityStr);
+            } catch (NumberFormatException e) {
+                etCapacity.setError("Enter valid number");
+                etCapacity.requestFocus();
+                return;
+            }
+            if (capacity < 1 || capacity > 100) {
+                etCapacity.setError("Capacity must be between 1 and 100");
+                etCapacity.requestFocus();
+                return;
+            }
+
+            // Create Manage object with capacity
+            Manage manage = new Manage(name, hourlyPrice, dailyPrice, city, timing, address, capacity);
 
             if (isEdit) {
                 FirebaseDatabase.getInstance().getReference("Manage")
