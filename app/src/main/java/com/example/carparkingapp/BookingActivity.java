@@ -131,7 +131,7 @@ public class BookingActivity extends AppCompatActivity {
 
                 // 🔹 Profile update kar dena (taake agle booking pe direct load ho)
                 FirebaseDatabase.getInstance().getReference("Users").child(userId).child("vehicleType").setValue(type);
-                FirebaseDatabase.getInstance().getReference("Users").child(userId).child("vehicleNo").setValue(no);
+                FirebaseDatabase.getInstance().getReference("Users").child(userId).child("vehicleNumber").setValue(no);
                 FirebaseDatabase.getInstance().getReference("Users").child(userId).child("contact").setValue(contact);
 
                 // 🔹 Booking save karna
