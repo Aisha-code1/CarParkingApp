@@ -52,8 +52,8 @@ import java.util.Locale;
 public class ProfileFragment extends Fragment {
 
     ImageView imgProfile, imgEditIcon, imgCameraIcon;
-    TextView tvName, tvEmail;
-    EditText edtName, edtEmail;
+    TextView tvName, tvEmail, tvVehicleType, tvVehicleNumber, tvContact;
+    EditText edtName, edtEmail, edtVehicleType, edtVehicleNumber, edtContact;
     Button btnSave;
     private static final int REQUEST_IMAGE_PICK = 101;
     private static final int REQUEST_IMAGE_CAPTURE = 102;
@@ -61,33 +61,24 @@ public class ProfileFragment extends Fragment {
 
     private Uri imageUri;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String email = user.getEmail();
-    String uid = user.getUid();
+
+    // ---- Camera and Gallery Launchers ----
     private final ActivityResultLauncher<Uri> captureImageLauncher =
-            registerForActivityResult(new ActivityResultContracts.TakePicture(), new ActivityResultCallback<Boolean>() {
-                @Override
-                public void onActivityResult(Boolean result) {
-                    if (result) {
-                        //handle capture image
-                        if (imageUri != null) {
-                            //do something with the capture image
-                            imgProfile.setImageURI(imageUri);
-                            uploadImageToFirebase(imageUri);
-                        }
-                    }
+            registerForActivityResult(new ActivityResultContracts.TakePicture(), result -> {
+                if (result && imageUri != null) {
+                    imgProfile.setImageURI(imageUri);
+                    uploadImageToFirebase(imageUri);
                 }
             });
 
     private final ActivityResultLauncher<String> pickImageLauncher =
-            registerForActivityResult(new ActivityResultContracts.GetContent(), new ActivityResultCallback<Uri>() {
-                @Override
-                public void onActivityResult(Uri result) {
-                    if (result != null) {
-                        imgProfile.setImageURI(result);
-                         uploadImageToFirebase(result);
-                          }
+            registerForActivityResult(new ActivityResultContracts.GetContent(), result -> {
+                if (result != null) {
+                    imgProfile.setImageURI(result);
+                    uploadImageToFirebase(result);
                 }
             });
+
     private void checkCameraPermissionAndCapture() {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -95,12 +86,12 @@ public class ProfileFragment extends Fragment {
                     new String[]{Manifest.permission.CAMERA},
                     REQUEST_CAMERA_PERMISSION);
         } else {
-           captureImage();
+            captureImage();
         }
     }
 
     private void captureImage() {
-        File photoFile = null;
+        File photoFile;
         try {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
             String imageFileName = "JPEG_" + timeStamp + "_";
@@ -117,7 +108,6 @@ public class ProfileFragment extends Fragment {
                     requireContext().getPackageName() + ".provider",
                     photoFile
             );
-            // Grant URI permission
             requireActivity().grantUriPermission(
                     requireContext().getPackageName(),
                     imageUri,
@@ -128,16 +118,16 @@ public class ProfileFragment extends Fragment {
     }
 
     private void pickImage() {
-
         pickImageLauncher.launch("image/*");
     }
+
     private void showImageSourceDialog() {
         String[] options = {"Capture from Camera", "Choose from Gallery"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Select Image Source");
         builder.setItems(options, (dialog, which) -> {
             if (which == 0) {
-              checkCameraPermissionAndCapture();
+                checkCameraPermissionAndCapture();
             } else {
                 pickImage();
             }
@@ -157,56 +147,63 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    public ProfileFragment() {
-        // Required empty public constructor
-    }
-
-
-//    public static ProfileFragment newInstance(String param1, String param2) {
-//        ProfileFragment fragment = new ProfileFragment();
-//        Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
+    public ProfileFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
         imgProfile = view.findViewById(R.id.iv_profile);
         imgEditIcon = view.findViewById(R.id.iv_edit);
         imgCameraIcon = view.findViewById(R.id.iv_camera);
+
         tvName = view.findViewById(R.id.tv_name);
         tvEmail = view.findViewById(R.id.tv_email);
+        tvVehicleType = view.findViewById(R.id.tvVehicleType);
+        tvVehicleNumber = view.findViewById(R.id.tvVehicleNumber);
+        tvContact = view.findViewById(R.id.tvContact);
+
         edtName = view.findViewById(R.id.edt_name);
         edtEmail = view.findViewById(R.id.edt_email);
+        edtVehicleType = view.findViewById(R.id.edttype);
+        edtVehicleNumber = view.findViewById(R.id.edtno);
+        edtContact = view.findViewById(R.id.edtcontact);
+
         btnSave = view.findViewById(R.id.btn_save);
 
+        // ----- Load Data -----
         FirebaseDatabase.getInstance()
                 .getReference("Users")
                 .child(FirebaseAuth.getInstance().getUid())
-//                .child(uid)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String name = snapshot.child("name").getValue(String.class);
                         String email = snapshot.child("email").getValue(String.class);
+                        String vehicleType = snapshot.child("vehicleType").getValue(String.class);
+                        String vehicleNumber = snapshot.child("vehicleNumber").getValue(String.class);
+                        String contact = snapshot.child("contact").getValue(String.class);
+
                         tvName.setText(name);
                         tvEmail.setText(email);
+                        tvVehicleType.setText(vehicleType);
+                        tvVehicleNumber.setText(vehicleNumber);
+                        tvContact.setText(contact);
+
                         edtName.setText(name);
+                        edtEmail.setText(email);
+                        edtVehicleType.setText(vehicleType);
+                        edtVehicleNumber.setText(vehicleNumber);
+                        edtContact.setText(contact);
+
+                        // load profile image
                         FirebaseDatabase.getInstance().getReference("Images")
                                 .child(FirebaseAuth.getInstance().getUid())
                                 .addListenerForSingleValueEvent(new ValueEventListener() {
@@ -217,8 +214,6 @@ public class ProfileFragment extends Fragment {
                                             Bitmap bitmap = MyUtil.base64ToBitmap(base64Image);
                                             if (bitmap != null) {
                                                 imgProfile.setImageBitmap(bitmap);
-                                            } else {
-                                                Toast.makeText(getContext(), "Invalid image data", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     }
@@ -228,7 +223,6 @@ public class ProfileFragment extends Fragment {
                                         Toast.makeText(getContext(), "Failed to load profile image", Toast.LENGTH_SHORT).show();
                                     }
                                 });
-
                     }
 
                     @Override
@@ -237,79 +231,115 @@ public class ProfileFragment extends Fragment {
                     }
                 });
 
-
+        // ----- Edit Profile -----
         imgEditIcon.setOnClickListener(v -> {
             imgEditIcon.setVisibility(View.GONE);
             imgCameraIcon.setVisibility(View.VISIBLE);
+
             edtName.setVisibility(View.VISIBLE);
+            edtEmail.setVisibility(View.VISIBLE);
+            edtVehicleType.setVisibility(View.VISIBLE);
+            edtVehicleNumber.setVisibility(View.VISIBLE);
+            edtContact.setVisibility(View.VISIBLE);
+
             btnSave.setVisibility(View.VISIBLE);
+
             tvName.setVisibility(View.GONE);
             tvEmail.setVisibility(View.GONE);
+            tvVehicleType.setVisibility(View.GONE);
+            tvVehicleNumber.setVisibility(View.GONE);
+            tvContact.setVisibility(View.GONE);
         });
 
         imgCameraIcon.setOnClickListener(v -> {
             showImageSourceDialog();
         });
 
-
+        // ----- Save Profile -----
         btnSave.setOnClickListener(v -> {
             String updatedName = edtName.getText().toString().trim();
+            String updatedEmail = edtEmail.getText().toString().trim();
+            String updatedVehicleType = edtVehicleType.getText().toString().trim();
+            String updatedVehicleNumber = edtVehicleNumber.getText().toString().trim();
+            String updatedContact = edtContact.getText().toString().trim();
 
             if (updatedName.isEmpty()) {
                 edtName.setError("Name cannot be empty");
                 return;
-
             }
 
             FirebaseDatabase.getInstance()
                     .getReference("Users")
                     .child(FirebaseAuth.getInstance().getUid())
-                    .child("name").setValue(updatedName)
+                    .child("name").setValue(updatedName);
+
+            FirebaseDatabase.getInstance()
+                    .getReference("Users")
+                    .child(FirebaseAuth.getInstance().getUid())
+                    .child("email").setValue(updatedEmail);
+
+            FirebaseDatabase.getInstance()
+                    .getReference("Users")
+                    .child(FirebaseAuth.getInstance().getUid())
+                    .child("vehicleType").setValue(updatedVehicleType);
+
+            FirebaseDatabase.getInstance()
+                    .getReference("Users")
+                    .child(FirebaseAuth.getInstance().getUid())
+                    .child("vehicleNumber").setValue(updatedVehicleNumber);
+
+            FirebaseDatabase.getInstance()
+                    .getReference("Users")
+                    .child(FirebaseAuth.getInstance().getUid())
+                    .child("contact").setValue(updatedContact)
                     .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(getContext(), "Name updated successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show();
+
                         tvName.setText(updatedName);
+                        tvEmail.setText(updatedEmail);
+                        tvVehicleType.setText(updatedVehicleType);
+                        tvVehicleNumber.setText(updatedVehicleNumber);
+                        tvContact.setText(updatedContact);
+
                         edtName.setVisibility(View.GONE);
+                        edtEmail.setVisibility(View.GONE);
+                        edtVehicleType.setVisibility(View.GONE);
+                        edtVehicleNumber.setVisibility(View.GONE);
+                        edtContact.setVisibility(View.GONE);
+
                         btnSave.setVisibility(View.GONE);
                         imgCameraIcon.setVisibility(View.GONE);
                         imgEditIcon.setVisibility(View.VISIBLE);
+
                         tvName.setVisibility(View.VISIBLE);
                         tvEmail.setVisibility(View.VISIBLE);
+                        tvVehicleType.setVisibility(View.VISIBLE);
+                        tvVehicleNumber.setVisibility(View.VISIBLE);
+                        tvContact.setVisibility(View.VISIBLE);
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(getContext(), "Failed to update name", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Failed to update profile", Toast.LENGTH_SHORT).show();
                     });
         });
 
-
+        // ----- Logout -----
         Button logout = view.findViewById(R.id.btn_logout);
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-                builder.setTitle("Confirmation");
-                builder.setMessage("Are you sure you want to logout");
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        FirebaseAuth.getInstance().signOut();
-                        Intent intent = new Intent(requireActivity(), LoginActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                        requireActivity().finish();
-                    }
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.setCancelable(false);
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
+        logout.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("Confirmation");
+            builder.setMessage("Are you sure you want to logout");
+            builder.setPositiveButton("Yes", (dialog, which) -> {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(requireActivity(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                requireActivity().finish();
+            });
+            builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+            builder.setCancelable(false);
+            builder.create().show();
         });
+
         return view;
     }
 }
-

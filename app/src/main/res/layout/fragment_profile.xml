@@ -66,6 +66,61 @@
                android:hint="Email"
                android:padding="10dp"
                android:visibility="gone"/>
+           <TextView
+               android:id="@+id/tvVehicleType"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Vehicle Type"
+               android:textSize="16sp"
+               android:visibility="gone"/>
+
+           <EditText
+               android:id="@+id/edttype"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="Enter Vehicle Type"
+               android:padding="10dp"
+               android:inputType="text" />
+
+           <!-- Vehicle No -->
+           <TextView
+               android:id="@+id/tvVehicleNumber"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Vehicle Number"
+               android:textSize="16sp"
+               android:visibility="gone"/>
+           <EditText
+               android:id="@+id/edtno"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="Enter Vehicle Number"
+               android:padding="10dp"
+               android:inputType="text" />
+
+           <!-- Contact -->
+           <TextView
+               android:id="@+id/tvContact"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Contact"
+               android:textSize="16sp"
+               android:visibility="gone"/>
+           <EditText
+               android:id="@+id/edtcontact"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="Enter Contact Number"
+               android:padding="10dp"
+               android:inputType="phone" />
+
+           <!-- Save Button -->
+           <Button
+               android:id="@+id/btnSave"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Save Profile"
+               android:layout_marginTop="16dp"/>
            <Button
                android:id="@+id/btn_save"
                android:layout_width="wrap_content"

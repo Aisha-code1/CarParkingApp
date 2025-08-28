@@ -10,32 +10,63 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class BookingActivity extends AppCompatActivity {
     String mallId, mallName;
     RadioGroup bookingTypeGroup;
     Button booking, pay;
     TextView dateLabel;
+    EditText edttype, edtno, edtdate, edtcontact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
 
-        EditText edttype = findViewById(R.id.vehicle_type);
-        EditText edtno = findViewById(R.id.vehicle_no);
-        EditText edtdate = findViewById(R.id.date);
-        EditText edtcontact = findViewById(R.id.contact);
+        edttype = findViewById(R.id.vehicle_type);
+        edtno = findViewById(R.id.vehicle_no);
+        edtdate = findViewById(R.id.date);
+        edtcontact = findViewById(R.id.contact);
         booking = findViewById(R.id.book);
         bookingTypeGroup = findViewById(R.id.bookingTypeGroup);
         dateLabel = findViewById(R.id.datelabel);
+
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        // 🔹 Profile se vehicle info load karna
+        FirebaseDatabase.getInstance().getReference("Users").child(userId)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            if (snapshot.hasChild("vehicleType")) {
+                                edttype.setText(snapshot.child("vehicleType").getValue(String.class));
+                            }
+                            if (snapshot.hasChild("vehicleNo")) {
+                                edtno.setText(snapshot.child("vehicleNo").getValue(String.class));
+                            }
+                            if (snapshot.hasChild("contact")) {
+                                edtcontact.setText(snapshot.child("contact").getValue(String.class));
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) { }
+                });
 
         edtdate.setOnClickListener(v -> {
             if (bookingTypeGroup.getCheckedRadioButtonId() == R.id.rbDaily) {
@@ -76,7 +107,6 @@ public class BookingActivity extends AppCompatActivity {
                 String date = edtdate.getText().toString();
                 String contact = edtcontact.getText().toString();
                 String bookingType = (bookingTypeGroup.getCheckedRadioButtonId() == R.id.rbDaily) ? "Daily" : "Hourly";
-                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
                 if (type.isEmpty()) {
                     Toast.makeText(BookingActivity.this, "Enter vehicle type", Toast.LENGTH_SHORT).show();
@@ -99,8 +129,14 @@ public class BookingActivity extends AppCompatActivity {
                     return;
                 }
 
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Bookings").child(mallId);
-                String bookingId = ref.push().getKey();
+                // 🔹 Profile update kar dena (taake agle booking pe direct load ho)
+                FirebaseDatabase.getInstance().getReference("Users").child(userId).child("vehicleType").setValue(type);
+                FirebaseDatabase.getInstance().getReference("Users").child(userId).child("vehicleNo").setValue(no);
+                FirebaseDatabase.getInstance().getReference("Users").child(userId).child("contact").setValue(contact);
+
+                // 🔹 Booking save karna
+                String bookingId = FirebaseDatabase.getInstance()
+                        .getReference("Bookings").child(mallId).push().getKey();
 
                 Booking bookings = new Booking(
                         bookingId,
@@ -115,7 +151,9 @@ public class BookingActivity extends AppCompatActivity {
                 );
                 bookings.mallId = mallId;
 
-                ref.child(bookingId).setValue(bookings);
+                FirebaseDatabase.getInstance()
+                        .getReference("Bookings").child(mallId).child(bookingId)
+                        .setValue(bookings);
 
                 Toast.makeText(BookingActivity.this, "Booking successful", Toast.LENGTH_SHORT).show();
                 finish();
