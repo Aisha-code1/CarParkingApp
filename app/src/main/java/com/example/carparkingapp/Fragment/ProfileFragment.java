@@ -181,7 +181,7 @@ public class ProfileFragment extends Fragment {
 
     private void setupUIByRole() {
         if ("admin".equals(role)) {
-            // Admin sees only name
+            // Admin sees only name and edit icon
             edtName.setVisibility(View.GONE);
             edtEmail.setVisibility(View.GONE);
             edtVehicleType.setVisibility(View.GONE);
@@ -189,7 +189,6 @@ public class ProfileFragment extends Fragment {
             edtContact.setVisibility(View.GONE);
             btnSave.setVisibility(View.GONE);
             imgCameraIcon.setVisibility(View.GONE);
-            imgEditIcon.setVisibility(View.GONE);
 
             tvName.setVisibility(View.VISIBLE);
             tvEmail.setVisibility(View.GONE);
@@ -197,8 +196,10 @@ public class ProfileFragment extends Fragment {
             tvVehicleNumber.setVisibility(View.GONE);
             tvContact.setVisibility(View.GONE);
 
+            imgEditIcon.setVisibility(View.VISIBLE);
+            imgEditIcon.setOnClickListener(v -> enableEditing());
         } else {
-            // User sees full profile
+            // User sees full profile as before
             edtName.setVisibility(View.GONE);
             edtEmail.setVisibility(View.GONE);
             edtVehicleType.setVisibility(View.GONE);
@@ -223,13 +224,22 @@ public class ProfileFragment extends Fragment {
     private void enableEditing() {
         imgEditIcon.setVisibility(View.GONE);
         imgCameraIcon.setVisibility(View.VISIBLE);
-        btnSave.setVisibility(View.VISIBLE);
 
         edtName.setVisibility(View.VISIBLE);
-        edtEmail.setVisibility(View.VISIBLE);
-        edtVehicleType.setVisibility(View.VISIBLE);
-        edtVehicleNumber.setVisibility(View.VISIBLE);
-        edtContact.setVisibility(View.VISIBLE);
+
+        if ("user".equals(role)) {
+            edtEmail.setVisibility(View.VISIBLE);
+            edtVehicleType.setVisibility(View.VISIBLE);
+            edtVehicleNumber.setVisibility(View.VISIBLE);
+            edtContact.setVisibility(View.VISIBLE);
+            btnSave.setVisibility(View.VISIBLE);
+        } else {
+            edtEmail.setVisibility(View.GONE);
+            edtVehicleType.setVisibility(View.GONE);
+            edtVehicleNumber.setVisibility(View.GONE);
+            edtContact.setVisibility(View.GONE);
+            btnSave.setVisibility(View.GONE); // Admin cannot save vehicle info
+        }
 
         tvName.setVisibility(View.GONE);
         tvEmail.setVisibility(View.GONE);
@@ -250,27 +260,29 @@ public class ProfileFragment extends Fragment {
             return;
         }
 
-        // Update all fields in single call
         Map<String, Object> updates = new HashMap<>();
         updates.put("name", updatedName);
-        updates.put("email", updatedEmail);
-        updates.put("vehicleType", updatedVehicleType);
-        updates.put("vehicleNumber", updatedVehicleNumber);
-        updates.put("contact", updatedContact);
+
+        if ("user".equals(role)) {
+            updates.put("email", updatedEmail);
+            updates.put("vehicleType", updatedVehicleType);
+            updates.put("vehicleNumber", updatedVehicleNumber);
+            updates.put("contact", updatedContact);
+        }
 
         FirebaseDatabase.getInstance().getReference("Users")
                 .child(user.getUid())
                 .updateChildren(updates)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(getContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                    // update TextViews with new data
                     tvName.setText(updatedName);
-                    tvEmail.setText(updatedEmail);
-                    tvVehicleType.setText(updatedVehicleType);
-                    tvVehicleNumber.setText(updatedVehicleNumber);
-                    tvContact.setText(updatedContact);
+                    if ("user".equals(role)) {
+                        tvEmail.setText(updatedEmail);
+                        tvVehicleType.setText(updatedVehicleType);
+                        tvVehicleNumber.setText(updatedVehicleNumber);
+                        tvContact.setText(updatedContact);
+                    }
 
-                    // hide edit fields, show TextViews
                     edtName.setVisibility(View.GONE);
                     edtEmail.setVisibility(View.GONE);
                     edtVehicleType.setVisibility(View.GONE);
@@ -281,16 +293,17 @@ public class ProfileFragment extends Fragment {
                     imgEditIcon.setVisibility(View.VISIBLE);
 
                     tvName.setVisibility(View.VISIBLE);
-                    tvEmail.setVisibility(View.VISIBLE);
-                    tvVehicleType.setVisibility(View.VISIBLE);
-                    tvVehicleNumber.setVisibility(View.VISIBLE);
-                    tvContact.setVisibility(View.VISIBLE);
+                    if ("user".equals(role)) {
+                        tvEmail.setVisibility(View.VISIBLE);
+                        tvVehicleType.setVisibility(View.VISIBLE);
+                        tvVehicleNumber.setVisibility(View.VISIBLE);
+                        tvContact.setVisibility(View.VISIBLE);
+                    }
                 })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Failed to update profile", Toast.LENGTH_SHORT).show();
-                });
+                .addOnFailureListener(e -> Toast.makeText(getContext(), "Failed to update profile", Toast.LENGTH_SHORT).show());
     }
 
+    // Image selection/capture methods remain unchanged
     private void showImageSourceDialog() {
         String[] options = {"Capture from Camera", "Choose from Gallery"};
         new AlertDialog.Builder(getContext())
