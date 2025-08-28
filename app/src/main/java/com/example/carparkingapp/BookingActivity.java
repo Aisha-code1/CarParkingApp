@@ -1,5 +1,6 @@
 package com.example.carparkingapp;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
+import android.app.TimePickerDialog;
+import android.widget.TimePicker;
 import java.util.HashMap;
 
 public class BookingActivity extends AppCompatActivity {
@@ -29,8 +32,9 @@ public class BookingActivity extends AppCompatActivity {
     RadioGroup bookingTypeGroup;
     Button booking;
     TextView dateLabel;
-    EditText edttype, edtno, edtdate, edtcontact;
+    EditText edttype, edtno, edtdate, edtcontact, edttime; // add edttime for hourly
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +48,13 @@ public class BookingActivity extends AppCompatActivity {
         bookingTypeGroup = findViewById(R.id.bookingTypeGroup);
         dateLabel = findViewById(R.id.datelabel);
 
+        // Hourly time field
+        edttime = findViewById(R.id.time);
+        edttime.setVisibility(View.GONE);
+
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        // 🔹 Profile se vehicle info load karna
+        // Load profile info
         FirebaseDatabase.getInstance().getReference("Users").child(userId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -68,20 +76,33 @@ public class BookingActivity extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError error) { }
                 });
 
+        // Toggle UI based on booking type
+        bookingTypeGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.rbDaily) {
+                edtdate.setVisibility(View.VISIBLE);
+                edttime.setVisibility(View.GONE);
+            } else if (checkedId == R.id.rbHourly) {
+                edtdate.setVisibility(View.GONE);
+                edttime.setVisibility(View.VISIBLE);
+            }
+        });
+
+        // Date picker for daily booking
         edtdate.setOnClickListener(v -> {
             if (bookingTypeGroup.getCheckedRadioButtonId() == R.id.rbDaily) {
-                final Calendar calendar = Calendar.getInstance();
+                Calendar calendar = Calendar.getInstance();
                 int year = calendar.get(Calendar.YEAR);
                 int month = calendar.get(Calendar.MONTH);
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog startPicker = new DatePickerDialog(BookingActivity.this,
+                DatePickerDialog startPicker = new DatePickerDialog(this,
                         (view, y, m, d) -> {
                             String startDate = d + "/" + (m + 1) + "/" + y;
+
                             Calendar minEnd = Calendar.getInstance();
                             minEnd.set(y, m, d);
 
-                            DatePickerDialog endPicker = new DatePickerDialog(BookingActivity.this,
+                            DatePickerDialog endPicker = new DatePickerDialog(this,
                                     (view2, y2, m2, d2) -> {
                                         String endDate = d2 + "/" + (m2 + 1) + "/" + y2;
                                         edtdate.setText(startDate + " to " + endDate);
@@ -91,73 +112,91 @@ public class BookingActivity extends AppCompatActivity {
                         }, year, month, day);
                 startPicker.getDatePicker().setMinDate(System.currentTimeMillis());
                 startPicker.show();
-            } else {
-                Toast.makeText(this, "Hourly booking doesn't need date selection", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        // Time picker for hourly booking
+        edttime.setOnClickListener(v -> {
+            Calendar now = Calendar.getInstance();
+            int hour = now.get(Calendar.HOUR_OF_DAY);
+            int minute = now.get(Calendar.MINUTE);
+
+            TimePickerDialog timePicker = new TimePickerDialog(this, (view, h, m) -> {
+                Calendar selectedTime = Calendar.getInstance();
+                selectedTime.set(Calendar.HOUR_OF_DAY, h);
+                selectedTime.set(Calendar.MINUTE, m);
+
+                if (selectedTime.before(Calendar.getInstance())) {
+                    Toast.makeText(this, "Cannot select past time", Toast.LENGTH_SHORT).show();
+                } else {
+                    edttime.setText(String.format("%02d:%02d", h, m));
+                }
+            }, hour, minute, true);
+
+            timePicker.show();
         });
 
         mallId = getIntent().getStringExtra("mallId");
         mallName = getIntent().getStringExtra("mallName");
 
-        booking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String type = edttype.getText().toString();
-                String no = edtno.getText().toString();
-                String date = edtdate.getText().toString();
-                String contact = edtcontact.getText().toString();
-                String bookingType = (bookingTypeGroup.getCheckedRadioButtonId() == R.id.rbDaily) ? "Daily" : "Hourly";
+        booking.setOnClickListener(v -> {
+            String type = edttype.getText().toString();
+            String no = edtno.getText().toString();
+            String dateOrTime = (bookingTypeGroup.getCheckedRadioButtonId() == R.id.rbDaily)
+                    ? edtdate.getText().toString()
+                    : edttime.getText().toString();
+            String contact = edtcontact.getText().toString();
+            String bookingType = (bookingTypeGroup.getCheckedRadioButtonId() == R.id.rbDaily) ? "Daily" : "Hourly";
 
-                if (type.isEmpty()) {
-                    Toast.makeText(BookingActivity.this, "Enter vehicle type", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (no.isEmpty()) {
-                    Toast.makeText(BookingActivity.this, "Enter vehicle no.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (bookingType.equals("Daily") && date.isEmpty()) {
-                    Toast.makeText(BookingActivity.this, "Enter date", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (contact.isEmpty()) {
-                    Toast.makeText(BookingActivity.this, "Enter contact", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (mallName == null) {
-                    Toast.makeText(BookingActivity.this, "Mall name is missing!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // 🔹 Profile update kar dena (taake agle booking pe direct load ho)
-                FirebaseDatabase.getInstance().getReference("Users").child(userId).child("vehicleType").setValue(type);
-                FirebaseDatabase.getInstance().getReference("Users").child(userId).child("vehicleNumber").setValue(no);
-                FirebaseDatabase.getInstance().getReference("Users").child(userId).child("contact").setValue(contact);
-
-                // 🔹 Booking save karna
-                String bookingId = FirebaseDatabase.getInstance()
-                        .getReference("Bookings").child(mallId).push().getKey();
-
-                Booking bookings = new Booking(
-                        bookingId,
-                        userId,
-                        type,
-                        no,
-                        bookingType.equals("Hourly") ? "Hourly Booking" : date,
-                        mallName,
-                        contact,
-                        bookingType,
-                        "Pending"
-                );
-                bookings.mallId = mallId;
-
-                FirebaseDatabase.getInstance()
-                        .getReference("Bookings").child(mallId).child(bookingId)
-                        .setValue(bookings);
-
-                Toast.makeText(BookingActivity.this, "Booking successful", Toast.LENGTH_SHORT).show();
-                finish();
+            if (type.isEmpty()) {
+                Toast.makeText(this, "Enter vehicle type", Toast.LENGTH_SHORT).show();
+                return;
             }
+            if (no.isEmpty()) {
+                Toast.makeText(this, "Enter vehicle no.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (bookingType.equals("Daily") && dateOrTime.isEmpty()) {
+                Toast.makeText(this, "Enter date", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (bookingType.equals("Hourly") && dateOrTime.isEmpty()) {
+                Toast.makeText(this, "Select time", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (contact.isEmpty()) {
+                Toast.makeText(this, "Enter contact", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Update profile info
+            FirebaseDatabase.getInstance().getReference("Users").child(userId).child("vehicleType").setValue(type);
+            FirebaseDatabase.getInstance().getReference("Users").child(userId).child("vehicleNumber").setValue(no);
+            FirebaseDatabase.getInstance().getReference("Users").child(userId).child("contact").setValue(contact);
+
+            // Save booking
+            String bookingId = FirebaseDatabase.getInstance()
+                    .getReference("Bookings").child(mallId).push().getKey();
+
+            Booking bookings = new Booking(
+                    bookingId,
+                    userId,
+                    type,
+                    no,
+                    dateOrTime,
+                    mallName,
+                    contact,
+                    bookingType,
+                    "Pending"
+            );
+            bookings.mallId = mallId;
+
+            FirebaseDatabase.getInstance()
+                    .getReference("Bookings").child(mallId).child(bookingId)
+                    .setValue(bookings);
+
+            Toast.makeText(this, "Booking successful", Toast.LENGTH_SHORT).show();
+            finish();
         });
     }
 }
