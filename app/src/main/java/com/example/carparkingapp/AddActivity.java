@@ -1,10 +1,10 @@
 package com.example.carparkingapp;
-
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.view.View;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +19,9 @@ public class AddActivity extends AppCompatActivity {
     Button save;
     boolean isEdit = false;
     String editId = null;
+
+    int openingHour, openingMinute, closingHour, closingMinute;
+    boolean isOpeningSelected = false, isClosingSelected = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +42,29 @@ public class AddActivity extends AppCompatActivity {
             int minute = calendar.get(Calendar.MINUTE);
 
             TimePickerDialog openingDialog = new TimePickerDialog(AddActivity.this,
-                    (view, openingHour, openingMinute) -> {
-                        String openingTime = formatTime12Hour(openingHour, openingMinute);
+                    (view, oHour, oMinute) -> {
+                        openingHour = oHour;
+                        openingMinute = oMinute;
+                        isOpeningSelected = true;
+
+                        String openingTime = formatTime12Hour(oHour, oMinute);
 
                         TimePickerDialog closingDialog = new TimePickerDialog(AddActivity.this,
-                                (view2, closingHour, closingMinute) -> {
-                                    String closingTime = formatTime12Hour(closingHour, closingMinute);
+                                (view2, cHour, cMinute) -> {
+                                    closingHour = cHour;
+                                    closingMinute = cMinute;
+                                    isClosingSelected = true;
+
+                                    if (closingHour < openingHour ||
+                                            (closingHour == openingHour && closingMinute <= openingMinute)) {
+                                        Toast.makeText(AddActivity.this,
+                                                "Closing time must be after Opening time",
+                                                Toast.LENGTH_SHORT).show();
+                                        etTiming.setText("");
+                                        return;
+                                    }
+
+                                    String closingTime = formatTime12Hour(cHour, cMinute);
                                     etTiming.setText(openingTime + " - " + closingTime);
                                 },
                                 hour, minute, false);
@@ -78,34 +98,57 @@ public class AddActivity extends AppCompatActivity {
             String timing = etTiming.getText().toString().trim();
             String address = etAddress.getText().toString().trim();
 
+            // Name Validation
             if (name.isEmpty()) {
                 etName.setError("Enter mall name");
                 etName.requestFocus();
                 return;
             }
+
+            // Hourly Price Validation
             if (hourlyPriceStr.isEmpty()) {
                 etHourlyPrice.setError("Enter Hourly Price");
                 etHourlyPrice.requestFocus();
                 return;
             }
+
+            // Daily Price Validation
             if (dailyPriceStr.isEmpty()) {
                 etDailyPrice.setError("Enter Daily Price");
                 etDailyPrice.requestFocus();
                 return;
             }
+
+            // City Validation
             if (city.isEmpty()) {
                 etCity.setError("Enter city");
                 etCity.requestFocus();
                 return;
             }
-            if (timing.isEmpty()) {
-                etTiming.setError("Please select opening and closing time");
-                etTiming.requestFocus();
+            if (city.length() < 3 || city.length() > 20) {
+                etCity.setError("City must be 3-20 characters");
+                etCity.requestFocus();
                 return;
             }
+            city = city.substring(0, 1).toUpperCase() + city.substring(1);
+
+            // Address Validation
             if (address.isEmpty()) {
                 etAddress.setError("Enter address");
                 etAddress.requestFocus();
+                return;
+            }
+            if (address.length() < 5 || address.length() > 50) {
+                etAddress.setError("Address must be 5-50 characters");
+                etAddress.requestFocus();
+                return;
+            }
+            address = address.substring(0, 1).toUpperCase() + address.substring(1);
+
+            // Timing Validation
+            if (timing.isEmpty()) {
+                etTiming.setError("Please select opening and closing time");
+                etTiming.requestFocus();
                 return;
             }
 
@@ -116,6 +159,23 @@ public class AddActivity extends AppCompatActivity {
             } catch (NumberFormatException e) {
                 etHourlyPrice.setError("Enter valid number");
                 etDailyPrice.setError("Enter valid number");
+                return;
+            }
+
+            // Price Limits
+            if (hourlyPrice < 50 || hourlyPrice > 1000) {
+                etHourlyPrice.setError("Hourly Price must be between 50 and 1000");
+                etHourlyPrice.requestFocus();
+                return;
+            }
+            if (dailyPrice < 100 || dailyPrice > 5000) {
+                etDailyPrice.setError("Daily Price must be between 100 and 5000");
+                etDailyPrice.requestFocus();
+                return;
+            }
+            if (hourlyPrice >= dailyPrice) {
+                etHourlyPrice.setError("Hourly Price must be less than Daily Price");
+                etHourlyPrice.requestFocus();
                 return;
             }
 
